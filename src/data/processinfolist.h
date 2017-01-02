@@ -1,0 +1,23 @@
+#ifndef __PROCESSINFOLIST_H_
+#define __PROCESSINFOLIST_H_
+
+#include "src/base/linklist.h"
+#include "processinfo.h"
+#include <QHash>
+
+class TProcessInfoList:public TLinkList<TProcessInfo>
+{
+private:
+	QHash<int,TProcessInfo *> pidIndex;
+	void readProcess(QString p_path,TProcessInfo *p_info);
+	void reReadProcess(TProcessInfo *p_info);
+	void processStat(QString p_path,TProcessInfo *p_info);
+	void readThreads(QString p_path,TProcessInfo *p_parent);
+	void toHyr();
+public:
+	void readInfo();
+	inline TProcessInfo *getByPid(uint p_pid){ return pidIndex.value(p_pid,nullptr);}
+
+};
+
+#endif
