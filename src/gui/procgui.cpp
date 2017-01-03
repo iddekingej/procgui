@@ -85,8 +85,7 @@ QSet<int> TProcGui::getSelectedProcess()
 		if(ui->processList->model()->rowCount()>0){
 			QModelIndexList l_selected=ui->processList->selectionModel()->selectedRows(0);
 			QListIterator<QModelIndex> l_iter(l_selected);
-			QModelIndex l_index;
-			std::cout << "Num=" << l_selected.size()<< std::endl;
+			QModelIndex l_index;			
 			while(l_iter.hasNext()){
 				l_index=l_iter.next();
 				if(l_index.isValid()){
