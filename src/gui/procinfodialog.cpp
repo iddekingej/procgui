@@ -23,8 +23,10 @@ void TProcInfoDialog::fillData()
 		ui.parentCommand_label->setText("");
 	}
 	ui.owner_label->setText(info->getOwnerName());
-	ui.state_label->setText(info->stateString());
+	ui.state_label->setText(info->stateString());	
 	ui.cwd_label->setText(info->getCWD());
+	ui.startTime_label->setText(info->timeToString(info->getStartTime()));
+	ui.processGroupId_label->setText(QString::number(info->getProcessGroupId()));
 	QStandardItemModel *l_model=new QStandardItemModel(0,3);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));

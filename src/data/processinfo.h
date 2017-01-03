@@ -12,6 +12,8 @@ private:
 	pid_t pid;
 	pid_t ppid;
 	uint  ownerId;
+	int   processGroupId; 
+	unsigned long long startTime;
 	QString exe;
 	QString comm;
 	QString cwd;
@@ -39,6 +41,10 @@ public:
 	inline void setCmdLine(QString &p_cmdLine){cmdLine=p_cmdLine; }
 	inline QString &getCmdLine(){return cmdLine;}
 	inline TProcessInfo *getParent(){ return parent;}
+	inline unsigned long long getStartTime(){ return startTime;}
+	inline void setStartTime(unsigned long long p_startTime){ startTime=p_startTime;}
+	inline int getProcessGroupId(){ return processGroupId;}
+	inline void setProcessGroupId(int p_processGroupId){ processGroupId=p_processGroupId;}
 	void addSubProcess(TProcessInfo *p_processInfo);
 	void addThread(TProcessInfo *p_processInfo);
 	QString getOwnerName();
@@ -46,6 +52,8 @@ public:
 	inline QHash<uint,TProcessInfo*> *getSubProcesses(){ return &subprocess;}
 	inline TLinkList<TProcessInfo> *getThreads(){ return &threads;}
 	QString stateString();
+	QString timeToString(unsigned long long p_time);
+
 };
 
 #endif

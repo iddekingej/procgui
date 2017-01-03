@@ -5,7 +5,10 @@
 #include <iostream>
 #include "src/base/utils.h"
 
-
+/**
+ *  Read all processinformation from the /proc folder
+ * 
+ */
 void TProcessInfoList::readInfo()
 {
 	QDirIterator l_iter("/proc");
@@ -81,7 +84,9 @@ void TProcessInfoList::processStat(QString p_path, TProcessInfo* p_info)
 	QStringList l_list=l_stat.mid(l_end+1).split(' ');
 	if(l_list.length()>2){
 		p_info->setState(l_list[0].at(0).toLatin1());
-		p_info->setPPid(l_list[1].toLong());
+		p_info->setPPid(l_list[1].toLong());	
+		p_info->setProcessGroupId(l_list[2].toInt());
+		p_info->setStartTime(l_list[19].toULongLong());
 	}
 }
 

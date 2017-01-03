@@ -9,12 +9,15 @@ class TProcessInfoList:public TLinkList<TProcessInfo>
 {
 private:
 	QHash<int,TProcessInfo *> pidIndex;
+	
 	void readProcess(QString p_path,TProcessInfo *p_info);
 	void reReadProcess(TProcessInfo *p_info);
 	void processStat(QString p_path,TProcessInfo *p_info);
 	void readThreads(QString p_path,TProcessInfo *p_parent);
 	void toHyr();
-public:
+	
+public:	
+	
 	void readInfo();
 	inline TProcessInfo *getByPid(uint p_pid){ return pidIndex.value(p_pid,nullptr);}
 
