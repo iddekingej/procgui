@@ -86,6 +86,7 @@ void TProcessInfoList::processStat(QString p_path, TProcessInfo* p_info)
 		p_info->setState(l_list[0].at(0).toLatin1());
 		p_info->setPPid(l_list[1].toLong());	
 		p_info->setProcessGroupId(l_list[2].toInt());
+		p_info->setSessionPId(l_list[3].toLong());
 		p_info->setStartTime(l_list[19].toULongLong());
 	}
 }

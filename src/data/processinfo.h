@@ -11,6 +11,7 @@ class TProcessInfo
 private:
 	pid_t pid;
 	pid_t ppid;
+	pid_t sessionPId;
 	uint  ownerId;
 	int   processGroupId; 
 	unsigned long long startTime;
@@ -45,6 +46,8 @@ public:
 	inline void setStartTime(unsigned long long p_startTime){ startTime=p_startTime;}
 	inline int getProcessGroupId(){ return processGroupId;}
 	inline void setProcessGroupId(int p_processGroupId){ processGroupId=p_processGroupId;}
+	inline pid_t getSessionPId(){ return sessionPId;}
+	inline void setSessionPId(pid_t p_sessionPId){ sessionPId=p_sessionPId;}
 	void addSubProcess(TProcessInfo *p_processInfo);
 	void addThread(TProcessInfo *p_processInfo);
 	QString getOwnerName();

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 2.8.12)
 project(procgui)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -29,6 +29,7 @@ set(procgui_SRC
   src/data/processinfo.cpp
   src/data/processinfolist.cpp
   src/gui/fieldconfig.cpp
+  src/gui/hyrfiller.cpp
   src/gui/procgui.cpp  
   src/gui/procinfodialog.cpp
   

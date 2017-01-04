@@ -20,6 +20,7 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << cmdLine;
 	p_info << timeToString(startTime);
 	p_info << QString::number(processGroupId);
+	p_info << QString::number(sessionPId);
 	
 }
 

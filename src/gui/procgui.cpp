@@ -19,7 +19,33 @@
 #include <sys/types.h>
 #include <signal.h>
 #include <QMessageBox>
-       
+#include <QHash>
+#include <QHashIterator>
+#include "hyfiller.h"       
+#include <QStyledItemDelegate>
+#include <QPainter>
+
+/**
+ *   This class is for painting grid lines in the tree
+ * 
+ */
+
+class TGridDelegate : public QStyledItemDelegate
+{
+public:
+    TGridDelegate(QObject* p_parent ) : QStyledItemDelegate(p_parent) { }
+ 
+    void paint(QPainter* p_painter, const QStyleOptionViewItem& p_option, const QModelIndex& p_index ) const
+    {
+        p_painter->save();
+        p_painter->setPen(QColor(Qt::lightGray));
+        p_painter->drawRect(p_option.rect);
+        p_painter->restore();
+ 
+        QStyledItemDelegate::paint(p_painter, p_option, p_index);
+    }
+};
+
 TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 {
 	ui->setupUi(this);
@@ -37,8 +63,10 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	connect(ui->processList,SIGNAL(doubleClicked(const QModelIndex &)),this,SLOT(doubleClickedGrid(const QModelIndex &)));
 	connect(ui->killButton,SIGNAL(clicked()),this,SLOT(killProcess()));
 	connect(ui->detailsButton,SIGNAL(clicked()),this,SLOT(editDetails()));
+	connect(ui->displayAsTree,SIGNAL(clicked()),this,SLOT(checkDisplayAsTree()));
 	fillProcessList();
-	
+	ui->displayAsTree->setCheckState(g_config.getDisplayAsTree()?Qt::Checked:Qt::Unchecked);
+	ui->processList->setItemDelegate(new TGridDelegate(ui->processList));
 }
 
 TProcGui::~TProcGui()
@@ -47,7 +75,10 @@ TProcGui::~TProcGui()
 }
 
 
-
+/**
+ *   Fills/refresh the list with users. Before the refresh, the current selection is saved and restored after the refresh. 
+ *   The list is sorted on the description. The associated data item  is the user id.
+ */
 
 void TProcGui::fillUserFilter()
 {
@@ -77,101 +108,40 @@ void TProcGui::fillUserFilter()
 	ui->userFilter->blockSignals(false);
 }
 
+/**
+ *  There is a check box "Display as tree" on the main Gui. When this check box is checked ' unchecked this routine is called
+ *  The check state is save in the configuration file and the process list is refreshed.
+ */
 
-QSet<int> TProcGui::getSelectedProcess()
+void TProcGui::checkDisplayAsTree()
 {
-	QSet<int> l_set;
-	if(ui->processList->model() !=nullptr){
-		if(ui->processList->model()->rowCount()>0){
-			QModelIndexList l_selected=ui->processList->selectionModel()->selectedRows(0);
-			QListIterator<QModelIndex> l_iter(l_selected);
-			QModelIndex l_index;			
-			while(l_iter.hasNext()){
-				l_index=l_iter.next();
-				if(l_index.isValid()){
-					int  l_pid=l_index.data(Qt::UserRole + 1).toInt();				
-					l_set += l_pid;
-				}
-			}
-		}
-	}
-	return l_set;
+	g_config.setDisplayAsTree(ui->displayAsTree->checkState()==Qt::Checked);
+	g_config.sync();
+	fillProcessList();
 }
 
-void TProcGui::selectProcesses(QModelIndexList& p_list)
-{
-	QListIterator<QModelIndex> l_selectIter(p_list);
-	QModelIndex  l_index;
-	QItemSelectionModel *l_selectionModel=ui->processList->selectionModel();
-	while(l_selectIter.hasNext()){
-		l_index=l_selectIter.next();
-		l_selectionModel->select(l_index,QItemSelectionModel::Rows|QItemSelectionModel::Select);
-	}	
-}
-
+/**
+ *  Fills/refreshes  the process list 
+ * 
+ */
 
 void TProcGui::fillProcessList()
 {
 	TProcessInfoList *l_info=new TProcessInfoList();
-	l_info->readInfo();
-	
-	QSet<int> l_selected=getSelectedProcess();
-	
-	QStandardItemModel *l_model=new QStandardItemModel(0,3,this);
-	TLinkListIterator<TProcessInfo> l_iter(l_info);
-	TProcessInfo *l_pi;
-	QVector<QString> l_row;
-	int l_cnt=0;
-	int l_col;
-	int l_fieldId;
-	
+	l_info->readInfo();	
 	fillUserFilter();
-	QVector<int> *l_fields=g_config.getFields();
-	QVectorIterator<int> l_hi(*l_fields);
-	l_col=0;
-	QVariant l_selectedUidV=ui->userFilter->itemData(ui->userFilter->currentIndex());
-	uint l_selectedUid=l_selectedUidV.toUInt();
-	QString l_exeFilter=ui->exeFilter->text();
-	while(l_hi.hasNext()){
-		l_fieldId=l_hi.next();
-		l_model->setHorizontalHeaderItem(l_col,new QStandardItem(g_fields[l_fieldId]));
-		l_col++;
-	}
-	l_col=0;
-	QModelIndexList l_newSelection;
-	while(l_iter.hasNext()){
-		l_pi=l_iter.next();
-		
-		if(l_exeFilter.length()>0){
-			if(l_pi->getExe().indexOf(l_exeFilter)==-1) continue;
-		}
-		if((l_selectedUid != UINT_MAX) && (l_pi->getOwnerId() != l_selectedUid)) continue;
-		l_pi->getInfo(l_row);
-		QVectorIterator<int> l_fi(*l_fields);
-		l_col=0;		
-		while(l_fi.hasNext()){
-			l_fieldId=l_fi.next();
-			QStandardItem *l_item=new QStandardItem(l_row[l_fieldId]);
-			if(l_col==0){
-				l_item->setData(l_pi->getPid());
-			}
-			l_model->setItem(l_cnt,l_col,l_item);
-			l_col++;
-		
-			
-		}
-		if(l_selected.contains(l_pi->getPid()))l_newSelection << l_model->index(l_cnt,0);
-		l_cnt++;		
-	}
-	ui->processList->setModel(l_model);
-	ui->processList->resizeRowsToContents();
-	ui->processList->resizeColumnsToContents();
-	selectProcesses(l_newSelection);
+	THyrFiller l_filler(this,ui->processList,l_info);
+	l_filler.setExeFilter(ui->exeFilter->text());
+	l_filler.setUserFilter(ui->userFilter->itemData(ui->userFilter->currentIndex()).toUInt());
+	l_filler.fillProcessList(g_config.getDisplayAsTree());
 	if(processInfo==nullptr) delete processInfo;
 	processInfo=l_info;
 }
 
-
+/** 
+ *  Event handler for double clicking the process list
+ *  When double clicking the process list, the details dialog with information about the selected process is shown.
+ */
 void TProcGui::doubleClickedGrid(const QModelIndex &p_index)
 {
 	

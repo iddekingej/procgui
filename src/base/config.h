@@ -28,9 +28,9 @@ public:
 	void setMainWindowSize(int p_width, int p_height);
 	int getMainWindowHeight();
 	int getMainWindowWidth();
-
-	
 	QVector<int>* getFields();
+	void setDisplayAsTree(bool p_flag);
+	bool getDisplayAsTree();
 };
 
 extern TConfig g_config;

@@ -27,6 +27,7 @@ void TProcInfoDialog::fillData()
 	ui.cwd_label->setText(info->getCWD());
 	ui.startTime_label->setText(info->timeToString(info->getStartTime()));
 	ui.processGroupId_label->setText(QString::number(info->getProcessGroupId()));
+	ui.sessionPId_label->setText(QString::number(info->getSessionPId()));
 	QStandardItemModel *l_model=new QStandardItemModel(0,3);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));

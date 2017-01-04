@@ -90,3 +90,26 @@ int TConfig::getMainWindowWidth()
 {
 	return configGui.readEntry(QStringLiteral("mainWidth"),-1);
 }
+
+/** 
+ *   The selection if the process list is displayed as a tree is stored n the configuration
+ * 
+ *   \param p_flag - True display processes as a tree, False as a flat list.
+ */
+
+void TConfig::setDisplayAsTree(bool p_flag)
+{
+	configGui.writeEntry(QStringLiteral("DisplayAsTree"),p_flag);
+}
+
+
+/** 
+ *   The selection if the process list is displayed as a tree is stored n the configuration
+ * 
+ *   \param p_flag - True display processes as a tree, False as a flat list.
+ */
+
+bool TConfig::getDisplayAsTree()
+{
+	return configGui.readEntry(QStringLiteral("DisplayAsTree"),true);
+}

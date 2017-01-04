@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QTableView>
 #include <QModelIndexList>
+#include <QStandardItemModel>
 #include "src/data/processinfolist.h"
 class TProcGui : public QMainWindow
 {
@@ -19,14 +20,13 @@ private slots:
 	void doubleClickedGrid(const QModelIndex &p_index);
 	void killProcess();
 	void editDetails();
+	void checkDisplayAsTree();
 private:
 	Ui::procgui *ui;    
 	QTimer refresh;
 	TProcessInfoList *processInfo=nullptr;
 	void fillProcessList();
 	void fillUserFilter();
-	QSet<int> getSelectedProcess();
-	void selectProcesses(QModelIndexList &p_list);
 public:
 	explicit TProcGui(QWidget *parent = 0);
 	~TProcGui();
