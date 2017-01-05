@@ -72,6 +72,7 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 TProcGui::~TProcGui()
 {
     delete ui;
+    if(processInfo!=nullptr)delete processInfo;
 }
 
 
@@ -150,8 +151,10 @@ void TProcGui::doubleClickedGrid(const QModelIndex &p_index)
 	if(processInfo!=nullptr){
 			TProcessInfo *l_info=processInfo->getByPid(l_pid);
 			if(l_info != nullptr){
+				refresh.stop();
 				TProcInfoDialog l_dialog(l_info,processInfo);
 				l_dialog.exec();				
+				refresh.start();
 			}
 		
 	}
@@ -159,7 +162,7 @@ void TProcGui::doubleClickedGrid(const QModelIndex &p_index)
 }
 
 void TProcGui::fieldsDialog()
-{
+{	
 	TFieldsConfig l_fieldConfig;
 	l_fieldConfig.exec();
 	fillProcessList();

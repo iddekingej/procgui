@@ -2,6 +2,7 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 #include <QHashIterator>
+#include <QMapIterator>
 #include "src/base/linklist.h"
 
 TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo,TProcessInfoList *p_procInfoList)
@@ -45,6 +46,22 @@ void TProcInfoDialog::fillData()
 	}
 	ui.subProcessList->setModel(l_model);
 	fillThreats();
+	QStandardItemModel *l_fileModel=new QStandardItemModel(0,2);
+	l_fileModel->setHorizontalHeaderItem(0,new QStandardItem("Fd"));
+	l_fileModel->setHorizontalHeaderItem(1,new QStandardItem("File"));
+	QMap<int,QString> l_openFiles;
+	info->getOpenFiles(l_openFiles);
+	QMapIterator<int,QString> l_oi(l_openFiles);
+	l_rowCnt=0;
+	while(l_oi.hasNext()){
+		l_oi.next();
+		l_fileModel->setItem(l_rowCnt,0,new QStandardItem(QString::number(l_oi.key())));
+		l_fileModel->setItem(l_rowCnt,1,new QStandardItem(l_oi.value()));
+		l_rowCnt++;
+	}
+	ui.openFiles->setModel(l_fileModel);
+	ui.openFiles->resizeColumnsToContents();
+	ui.openFiles->resizeRowsToContents();
 }
 
 void TProcInfoDialog::fillThreats()

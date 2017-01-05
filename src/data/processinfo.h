@@ -56,7 +56,7 @@ public:
 	inline TLinkList<TProcessInfo> *getThreads(){ return &threads;}
 	QString stateString();
 	QString timeToString(unsigned long long p_time);
-
+	void getOpenFiles(QMap<int,QString> &p_map);
 };
 
 #endif

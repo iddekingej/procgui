@@ -168,12 +168,9 @@ void THyrFiller::getExpanded()
 
 void THyrFiller::fillProcessList(bool p_asTree)
 {
-	TProcessInfoList *l_info=new TProcessInfoList();
-	l_info->readInfo();
-	
 	getSelected();
 	getExpanded();
-	TLinkListIterator<TProcessInfo> l_iter(l_info);
+	TLinkListIterator<TProcessInfo> l_iter(processInfoList);
 	TProcessInfo *l_pi;
 	int l_cnt=0;
 	int l_col;
