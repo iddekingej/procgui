@@ -13,6 +13,8 @@ private:
 	pid_t ppid;
 	pid_t sessionPId;
 	uint  ownerId;
+	ulong  vsize;
+	ulong   rss;
 	int   processGroupId; 
 	unsigned long long startTime;
 	QString exe;
@@ -48,6 +50,10 @@ public:
 	inline void setProcessGroupId(int p_processGroupId){ processGroupId=p_processGroupId;}
 	inline pid_t getSessionPId(){ return sessionPId;}
 	inline void setSessionPId(pid_t p_sessionPId){ sessionPId=p_sessionPId;}
+	inline void setVSize(ulong p_vsize){ vsize=p_vsize;}
+	inline ulong getVSize(){return vsize;}
+	inline void setRSS(ulong p_rss){rss=p_rss;}
+	inline ulong getRSS(){ return rss;}
 	void addSubProcess(TProcessInfo *p_processInfo);
 	void addThread(TProcessInfo *p_processInfo);
 	QString getOwnerName();

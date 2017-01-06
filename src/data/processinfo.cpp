@@ -21,6 +21,8 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << timeToString(startTime);
 	p_info << QString::number(processGroupId);
 	p_info << QString::number(sessionPId);
+	p_info << QString::number(vsize);
+	p_info << QString::number(rss);
 	
 }
 

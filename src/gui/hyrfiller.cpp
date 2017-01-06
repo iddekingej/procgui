@@ -2,6 +2,7 @@
 #include "src/base/config.h"
 #include "src/base/fieldlist.h"
 #include <iostream>
+#include "src/base/utils.h"
 
 THyrFiller::THyrFiller(QWidget *p_parent,QTreeView *p_treeView,TProcessInfoList *p_processInfoList)
 {
@@ -40,7 +41,7 @@ QStandardItem* THyrFiller::makeRow(TProcessInfo* p_procInfo,int p_row,  QStandar
 				model->setItem(p_row,l_col,l_item);
 			}
 			if(l_col==0){
-				l_item->setData(p_procInfo->getPid());
+				l_item->setData(p_procInfo->getPid(),Qt::UserRole+1);
 				if(selected.contains(p_procInfo->getPid()))newSelected << l_item->index();
 				if(expanded.contains(p_procInfo->getPid()))newExpanded << l_item->index();
 				l_return=l_item;

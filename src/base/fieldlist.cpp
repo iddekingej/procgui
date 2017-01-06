@@ -15,6 +15,9 @@ const  char *g_fields[]={
 ,	I18N_NOOP("Command line")
 ,	I18N_NOOP("Start time")
 ,	I18N_NOOP("Process group ID")
+,	I18N_NOOP("Session ID")
+,	I18N_NOOP("Virtual mem. size")
+,	I18N_NOOP("Res. mem. size")
 };
 const  int g_numFields=sizeof(g_fields)/sizeof(char*);
 

@@ -13,6 +13,11 @@ TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo,TProcessInfoList *p_pr
 	fillData();
 }
 
+/**
+ *  Fills dialog with data from process (info object var)
+ * 
+ */
+
 void TProcInfoDialog::fillData()
 {
 	ui.pid_label->setText(QString::number(info->getPid()));
@@ -29,6 +34,8 @@ void TProcInfoDialog::fillData()
 	ui.startTime_label->setText(info->timeToString(info->getStartTime()));
 	ui.processGroupId_label->setText(QString::number(info->getProcessGroupId()));
 	ui.sessionPId_label->setText(QString::number(info->getSessionPId()));
+	ui.vsize_label->setText(QString::number(info->getVSize()));
+	ui.rss_label->setText(QString::number(info->getRSS()));
 	QStandardItemModel *l_model=new QStandardItemModel(0,3);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
@@ -63,6 +70,11 @@ void TProcInfoDialog::fillData()
 	ui.openFiles->resizeColumnsToContents();
 	ui.openFiles->resizeRowsToContents();
 }
+
+/**
+ *  Fill threads grid with information about threads in process (read from proc/pid/task)
+ * 
+ */
 
 void TProcInfoDialog::fillThreats()
 {
