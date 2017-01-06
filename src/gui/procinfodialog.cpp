@@ -56,9 +56,9 @@ void TProcInfoDialog::fillData()
 	QStandardItemModel *l_fileModel=new QStandardItemModel(0,2);
 	l_fileModel->setHorizontalHeaderItem(0,new QStandardItem("Fd"));
 	l_fileModel->setHorizontalHeaderItem(1,new QStandardItem("File"));
-	QMap<int,QString> l_openFiles;
+	QHash<int,QString> l_openFiles;
 	info->getOpenFiles(l_openFiles);
-	QMapIterator<int,QString> l_oi(l_openFiles);
+	QHashIterator<int,QString> l_oi(l_openFiles);
 	l_rowCnt=0;
 	while(l_oi.hasNext()){
 		l_oi.next();

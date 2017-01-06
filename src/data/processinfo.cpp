@@ -99,7 +99,7 @@ QString TProcessInfo::timeToString(unsigned long long p_time)
 }
 
 
-void TProcessInfo::getOpenFiles(QMap<int, QString>& p_map)
+void TProcessInfo::getOpenFiles(QHash<int, QString>& p_map)
 {
 	QString l_path="/proc/"+QString::number(pid)+"/fd/";
 	QDirIterator l_iter(l_path);
