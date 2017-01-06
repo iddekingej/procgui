@@ -133,6 +133,11 @@ void THyrFiller::getSelected()
 	}
 }
 
+
+/**
+ * 
+ * 
+ */
 void THyrFiller::getExpandedChilderen(QStandardItem* p_item)
 {
 	QStandardItem *l_item;

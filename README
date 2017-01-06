@@ -1,18 +1,29 @@
-CMake Qt5 GUI Template
-----------------------
+ProcGui - A linux process/information viewer.
+=============================================
 
-You need Qt5 and CMake 2.8.11 or higher
+Building
+--------
 
--- Build instructions --
+Required:
 
-cd /your/project/build
-cmake ../
-make
+compiler/make
+	*c++ (x11)
+	*cmake
+libs(+devel):
+	libQt5Widgets.so.5
+	libKF5CoreAddons.so.5
+	libKF5ConfigCore.so.5
+	libKF5I18n.so.5
+	libQt5Gui.so.5
+	libQt5Core.so.5
+	
 
-./procgui
-
-
--- Tutorials and resources --
-
-Qt online docs
-http://qt-project.org/doc/
+building:
+	goto project root
+	mkdir build
+	cd build
+	cmake ..
+	make
+	
+You can install the program by make install or you can run the program directly from the "build" directory.  The program can be run as a 
+normal user or as a root. 
