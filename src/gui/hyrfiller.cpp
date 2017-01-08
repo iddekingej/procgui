@@ -215,7 +215,7 @@ void THyrFiller::fillProcessList(bool p_asTree)
 	}
 	processList->setUpdatesEnabled(false);
 	processList->setModel(model);	
-	selectProcesses(newSelected);
 	restoreExpanded();
+	selectProcesses(newSelected);
 	processList->setUpdatesEnabled(true);
 }
