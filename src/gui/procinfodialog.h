@@ -4,13 +4,19 @@
 #include "src/data/processinfo.h"
 #include "src/data/processinfolist.h"
 #include "ui_procinfodialog.h"
+#include <QTimer>
+
 class TProcInfoDialog:public QDialog
 {
+	Q_OBJECT
+private slots:
+	void refreshInfo();
 private:
 	TProcessInfo *info;
 	TProcessInfoList *list;
 	Ui::procinfo ui;
-	void fillData();
+	QTimer refresh;
+	void fillData(TProcessInfo *p_processInfo);
 	void fillThreats();
 public:
 	TProcInfoDialog(TProcessInfo *p_procInfo,TProcessInfoList *p_procInfoList);

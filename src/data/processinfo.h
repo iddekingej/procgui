@@ -55,7 +55,7 @@ public:
 	inline void setRSS(ulong p_rss){rss=p_rss;}
 	inline ulong getRSS(){ return rss;}
 	void addSubProcess(TProcessInfo *p_processInfo);
-	void addThread(TProcessInfo *p_processInfo);
+	void addThread(TProcessInfo *p_threadInfo);
 	QString getOwnerName();
 	void getInfo(QVector<QString> & p_info);
 	inline QHash<uint,TProcessInfo*> *getSubProcesses(){ return &subprocess;}

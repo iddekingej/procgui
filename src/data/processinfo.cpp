@@ -54,9 +54,9 @@ QString TProcessInfo::stateString()
 
 
 /**
- *  Returns username of process owner
+ *  Returns user name of process owner
  * 
- * \return  Username of user who owns the process
+ * \return  User name of user who owns the process
  */
 QString TProcessInfo::getOwnerName()
 {
@@ -68,9 +68,16 @@ void TProcessInfo::addSubProcess(TProcessInfo* p_processInfo)
 	subprocess.insert(p_processInfo->getPid(),p_processInfo);
 }
 
-void TProcessInfo::addThread(TProcessInfo* p_processInfo)
+
+/**
+ *  Add thread information to process
+ * 
+ * \param p_thread - thread information to add to proces
+ */
+
+void TProcessInfo::addThread(TProcessInfo* p_threadInfo)
 {
-	threads.append(p_processInfo);
+	threads.append(p_threadInfo);
 }
 
 /** 
@@ -98,6 +105,11 @@ QString TProcessInfo::timeToString(unsigned long long p_time)
 	return l_return;	
 }
 
+/**
+ *  Read all open files from process (From /proc/#pid#/fd/)
+ * 
+ * \param p_map  Hashmap int/QString with open files
+ */
 
 void TProcessInfo::getOpenFiles(QHash<int, QString>& p_map)
 {

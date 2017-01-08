@@ -14,6 +14,7 @@ private:
 	void reReadProcess(TProcessInfo *p_info);
 	void processStat(QString p_path,TProcessInfo *p_info);
 	void readThreads(QString p_path,TProcessInfo *p_parent);
+	TProcessInfo *readInfoFromPid(pid_t p_pid);
 	void toHyr();
 	
 public:	

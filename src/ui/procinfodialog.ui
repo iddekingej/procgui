@@ -14,6 +14,16 @@
    <string>Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item alignment="Qt::AlignHCenter">
+    <widget class="QLabel" name="deadWarning">
+     <property name="styleSheet">
+      <string notr="true">QLabel{color:#F00}</string>
+     </property>
+     <property name="text">
+      <string>Warning : Process is deleted</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <property name="topMargin">

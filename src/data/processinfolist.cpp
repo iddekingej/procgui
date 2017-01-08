@@ -5,6 +5,7 @@
 #include <iostream>
 #include "src/base/utils.h"
 #include <unistd.h>
+#include <QFileInfo>
 /**
  *  Read all processinformation from the /proc folder
  * 
@@ -24,7 +25,6 @@ void TProcessInfoList::readInfo()
 			pidIndex.insert(l_id,l_info);
 			l_info->setOwnerId(l_iter.fileInfo().ownerId());
 			readProcess(l_iter.filePath(),l_info);
-			readThreads(l_iter.filePath(),l_info);
 
 		}		
 		l_iter.next();
@@ -32,6 +32,25 @@ void TProcessInfoList::readInfo()
 	toHyr();
 	
 }
+/**
+ *  Read a TProcessInfo object by pid, the object is not added to the list
+ * 
+ * \param  p_pid    pid of proces to read
+ * \return          A TProcessInfo object with information about the proces with pid p_pid. Delete this object after use
+ */
+TProcessInfo * TProcessInfoList::readInfoFromPid(pid_t p_pid)
+{
+	QString l_path="/proc/"+QString::number(p_pid);
+	TProcessInfo *l_info=new TProcessInfo();
+	l_info->setPid(p_pid);
+	l_info->setOwnerId(QFileInfo(l_path).ownerId());
+	readProcess(l_path,l_info);
+	TProcessInfo *l_parent=pidIndex.value(l_info->getPPid(),nullptr);
+	l_info->setParent(l_parent);
+	return l_info;
+}
+
+
 
 /** Read process information from /proc file system for one process
  * 
@@ -52,6 +71,8 @@ void TProcessInfoList::readProcess(QString p_path, TProcessInfo *p_info)
 	processStat(p_path,p_info);
 	readString(p_path,"cmdline",l_str);
 	p_info->setCmdLine(l_str);
+	readThreads(p_path,p_info);
+
 }
 
 
