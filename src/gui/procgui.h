@@ -19,7 +19,7 @@ private slots:
 	void userFilterChange(int p_index);
 	void doubleClickedGrid(const QModelIndex &p_index);
 	void killProcess();
-	void editDetails();
+	void showDetails();
 	void checkDisplayAsTree();
 private:
 	Ui::procgui *ui;    

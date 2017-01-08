@@ -16,7 +16,9 @@ TConfig::~TConfig()
 }
 
 
-/* Initialize config =>called in main after setting up QApplication*/
+/**
+ * Initialize config =>called in main after setting up QApplication
+ */
 void TConfig::setup()
 {
 	config=KSharedConfig::openConfig();
@@ -41,7 +43,7 @@ void TConfig::sync()
 }
 
 
-/*
+/**
  * Returns fields (and order of field) which are displayed in the process list.
  * see fieldlist.h
  * 
@@ -62,7 +64,7 @@ QVector<int>* TConfig::getFields()
 	return fields;
 }
 
-/* Set fields and field order displayed in proces list
+/** Set fields and field order displayed in proces list
  * \param  list of displayed fields
  */
 void TConfig::setFields(QVariantList p_list)
@@ -71,21 +73,31 @@ void TConfig::setFields(QVariantList p_list)
 	configGui.writeEntry("fields",p_list);
 }
 
-//Set mainw window size in config.  is called from mainwindow.resize
-
+/**
+ * Set mainw window size in config.  is called from mainwindow.resize
+ * 
+ * \param p_width width of main window
+ * \param p_height height of main window
+*/
 void TConfig::setMainWindowSize(int p_width, int p_height)
 {
 	configGui.writeEntry(QStringLiteral("mainWidth"),p_width );
 	configGui.writeEntry(QStringLiteral("mainHeight"),p_height);
 }
-//Get Mainwindow height as defined in config. Return=-1 when not set
-
+/**
+ * Get Mainwindow height as defined in config. 
+ * \return Mainwindow height, Returns=-1 when not set
+*/
 int TConfig::getMainWindowHeight()
 {
 	return configGui.readEntry(QStringLiteral("mainHeight"),-1);
 }
 
-//Get mainwindow height as set in config. Return=-1 when not set
+/**
+ * Get mainwindow with   as set in config
+ * \return main window width Returns=-1 when not set
+ */
+
 int TConfig::getMainWindowWidth()
 {
 	return configGui.readEntry(QStringLiteral("mainWidth"),-1);

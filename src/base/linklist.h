@@ -25,9 +25,11 @@ public:
 		delete item;
 	}
 	
-//Constructor
-//p_item : Item to add to list:
-//See TLinkList::Append
+/**
+ * Constructor
+ *p_item : Item to add to list:
+ *See TLinkList::Append
+ */
 
 	TLinkListItem(T *p_item)
 	{	
@@ -37,11 +39,13 @@ public:
 };
 
 
-//Linkedlist 
-//Create:  TLinkList<TMyObject> l_list()
-//Append item  l_list->append(myObject) (myObject of type TMyObject)
-//Get top:     l_link->getStart()
-//When listis is destoyes item is also deleted
+/**
+ * Linkedlist 
+ * Create:  TLinkList<TMyObject> l_list()
+ *  Append item  l_list->append(myObject) (myObject of type TMyObject)
+ * Get top:     l_link->getStart()
+* When list is is destroyed item is also deleted
+*/
 
 template<class T>
 class TLinkList
@@ -61,6 +65,13 @@ public:
 		end=nullptr;
 		start=nullptr;
 	}
+	
+	
+	/**
+	 *  Destructor
+	 *  All items on the lists are deleted
+	 */
+	
 	~TLinkList(){
 		TLinkListItem<T> *l_current=start;
 		TLinkListItem<T> *l_next;
@@ -70,6 +81,12 @@ public:
 			l_current=l_next;
 		}
 	}
+	
+	/**
+	 * Append item to list
+	 * 
+	 * \param p_item item to append
+	 */
 	
 	void append(T *p_item)
 	{
@@ -86,6 +103,10 @@ public:
 
 };
 
+/**
+ * Java like iterator for linklist
+ */
+
 template<class T>
 class TLinkListIterator{
 private:
@@ -100,9 +121,18 @@ public:
 		current=p_list->getStart();
 	}
 	
+	/**
+	 *  Returns true when there is a next item.
+	 */
+	
 	inline bool hasNext(){
 		return current != nullptr;
 	}
+	
+	/**
+	 *  returns the current item and advances to the next item.
+	 */
+	
 	inline T* next(){
 		if(current != nullptr){
 			T *l_item=current->getItem();

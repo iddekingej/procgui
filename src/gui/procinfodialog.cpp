@@ -16,6 +16,11 @@ TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo,TProcessInfoList *p_pr
 	connect(&refresh,SIGNAL(timeout()),this,SLOT(refreshInfo()));
 }
 
+/***
+ *  Periodically the process data is read and the data is updated in the dialog
+ *  If process doesn't exists anymore a warning is displayed.
+ */
+
 void TProcInfoDialog::refreshInfo()
 {
 	TProcessInfoList *l_list=new TProcessInfoList();

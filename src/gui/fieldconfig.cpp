@@ -52,7 +52,9 @@ void TFieldsConfig::moveItem(int p_diff)
 	}
 }
 
-
+/**
+*  
+*/
 void TFieldsConfig::moveUp()
 {
 	moveItem(-1);

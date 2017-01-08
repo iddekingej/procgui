@@ -9,6 +9,10 @@
 #include "ui_fields.h"
 #include "src/base/fieldlist.h"
 
+/**
+ *  Dialog for setting the columns displayed on in the process list.
+ * 
+ */
 
 class TFieldsConfig:public QDialog
 {

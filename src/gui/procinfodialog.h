@@ -5,7 +5,9 @@
 #include "src/data/processinfolist.h"
 #include "ui_procinfodialog.h"
 #include <QTimer>
-
+/**
+ *   When clicking a process this dialog is popped-up with information about the selected process.
+ */
 class TProcInfoDialog:public QDialog
 {
 	Q_OBJECT

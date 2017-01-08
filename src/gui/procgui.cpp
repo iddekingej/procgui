@@ -26,7 +26,8 @@
 #include <QPainter>
 
 /**
- *   This class is for painting grid lines in the tree
+ * A Treeview doesn't have gridlines.
+ * This class is for painting grid lines in the tree.
  * 
  */
 
@@ -62,7 +63,7 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	connect(ui->userFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(userFilterChange(int)));
 	connect(ui->processList,SIGNAL(doubleClicked(const QModelIndex &)),this,SLOT(doubleClickedGrid(const QModelIndex &)));
 	connect(ui->killButton,SIGNAL(clicked()),this,SLOT(killProcess()));
-	connect(ui->detailsButton,SIGNAL(clicked()),this,SLOT(editDetails()));
+	connect(ui->detailsButton,SIGNAL(clicked()),this,SLOT(showDetails()));
 	connect(ui->displayAsTree,SIGNAL(clicked()),this,SLOT(checkDisplayAsTree()));
 	fillProcessList();
 	ui->displayAsTree->setCheckState(g_config.getDisplayAsTree()?Qt::Checked:Qt::Unchecked);
@@ -161,6 +162,11 @@ void TProcGui::doubleClickedGrid(const QModelIndex &p_index)
 
 }
 
+/***
+ *  When selected the "fields"  it is possible to selected the column displayed in the main window.
+ *  This method  display the dialog
+ */
+
 void TProcGui::fieldsDialog()
 {	
 	TFieldsConfig l_fieldConfig;
@@ -168,22 +174,41 @@ void TProcGui::fieldsDialog()
 	fillProcessList();
 }
 
+/**
+ * When the main window is re-sized the new size is stored in the configuration file.
+ * After restarting the program the previous size of the main window  is restored.
+ */
+
 void TProcGui::resizeEvent(QResizeEvent *p_event)
 {
 	g_config.setMainWindowSize(p_event->size().width() ,p_event->size().height());
 	g_config.sync();
 }
 
+
+/**
+ * This is an time out event of the "refresh"  QTimer.
+ * Periodically (by default 1s) the process data is refreshed in this routine.
+ */
 void TProcGui::refreshTimeout()
 {
 	fillProcessList();
 }
+
+/**
+ * On the main window there is a user selection combobox. Only the processes with has the selected owner is displayed
+ * After changing the selected user, the event is called. In this function the list is refreshed 
+ */
 
 void TProcGui::userFilterChange(int p_index)
 {
 	fillProcessList();
 }
 
+/**
+ *  This slot is called when the use selects a proces and clicks the "kill process" button. 
+ *  First the selected proces is determined and then the process is killed.
+ */
 void TProcGui::killProcess()
 {
 	QModelIndexList l_list=ui->processList->selectionModel()->selectedRows();
@@ -197,8 +222,12 @@ void TProcGui::killProcess()
 	
 }
 
+/**
+ *  This slot is called when the show details button is pressed. When no proces is selected a warning is displayed, otherwise 
+ *  the details dialog is displayed (same dialog when double clicking the process)
+ */
 
-void TProcGui::editDetails()
+void TProcGui::showDetails()
 {
 	QModelIndexList l_list=ui->processList->selectionModel()->selectedRows();
 	if(l_list.size()>0){		
