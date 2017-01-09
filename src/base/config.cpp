@@ -18,6 +18,7 @@ TConfig::~TConfig()
 
 /**
  * Initialize config =>called in main after setting up QApplication
+ * Check if there is a configuration file, if not setup a default.
  */
 void TConfig::setup()
 {
@@ -36,6 +37,10 @@ void TConfig::setup()
 	}
 
 }
+
+/**
+ *  After each change, call sync to save the data to the configuration file.
+ */
 
 void TConfig::sync()
 {
@@ -64,7 +69,11 @@ QVector<int>* TConfig::getFields()
 	return fields;
 }
 
-/** Set fields and field order displayed in proces list
+
+/** 
+ * Set fields and field order displayed in proces list
+ * see fieldlist.H
+ * 
  * \param  list of displayed fields
  */
 void TConfig::setFields(QVariantList p_list)
@@ -74,11 +83,13 @@ void TConfig::setFields(QVariantList p_list)
 }
 
 /**
- * Set mainw window size in config.  is called from mainwindow.resize
+ * When resizing the window, se size is saved in the config file.
+ * After (re)starting the progam the size of the main window is restored to this size
  * 
- * \param p_width width of main window
- * \param p_height height of main window
-*/
+ * \param p_width  - width of the main window
+ * \param p_height - height of the main window
+ */
+
 void TConfig::setMainWindowSize(int p_width, int p_height)
 {
 	configGui.writeEntry(QStringLiteral("mainWidth"),p_width );
@@ -86,16 +97,19 @@ void TConfig::setMainWindowSize(int p_width, int p_height)
 }
 /**
  * Get Mainwindow height as defined in config. 
- * \return Mainwindow height, Returns=-1 when not set
-*/
+ * 
+ * \return Height of the main window. Returns -1 when no size set.
+ */
+
 int TConfig::getMainWindowHeight()
 {
 	return configGui.readEntry(QStringLiteral("mainHeight"),-1);
 }
 
 /**
- * Get mainwindow with   as set in config
- * \return main window width Returns=-1 when not set
+ * Get mainwindow height as set in config. 
+ * 
+ * \return Width of the main window. Returns -1 when not set.
  */
 
 int TConfig::getMainWindowWidth()
@@ -104,7 +118,9 @@ int TConfig::getMainWindowWidth()
 }
 
 /** 
- *   The selection if the process list is displayed as a tree is stored n the configuration
+ *   The proces list can be displayed as a tree or a flat list. 
+ *   The checkbox for this option is on the main window. When changing this
+ *   option it's saved in the setup file.
  * 
  *   \param p_flag - True display processes as a tree, False as a flat list.
  */
@@ -116,7 +132,7 @@ void TConfig::setDisplayAsTree(bool p_flag)
 
 
 /** 
- *   The selection if the process list is displayed as a tree is stored n the configuration
+ *   The proces list can be displayed as a tree or a flat list.  
  * 
  *   \param p_flag - True display processes as a tree, False as a flat list.
  */

@@ -23,6 +23,8 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << QString::number(sessionPId);
 	p_info << QString::number(vsize);
 	p_info << QString::number(rss);
+	p_info << getSTimeStr();
+	p_info << getUTimeStr();
 	
 }
 
@@ -86,7 +88,7 @@ void TProcessInfo::addThread(TProcessInfo* p_threadInfo)
  *\param p_time is time in clkTck. sysconf(_SC_CLK_TCK) returns number of clock ticks per seconds
  * \return      time in readable form
  */
-QString TProcessInfo::timeToString(unsigned long long p_time)
+const QString TProcessInfo::timeToString(unsigned long long p_time)
 {
 	QString l_return ="";
 	unsigned long long l_time=p_time;

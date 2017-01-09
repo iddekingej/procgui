@@ -17,6 +17,8 @@ private:
 	ulong   rss;
 	int   processGroupId; 
 	unsigned long long startTime;
+	ulong utime;
+	ulong stime;
 	QString exe;
 	QString comm;
 	QString cwd;
@@ -46,6 +48,12 @@ public:
 	inline TProcessInfo *getParent(){ return parent;}
 	inline unsigned long long getStartTime(){ return startTime;}
 	inline void setStartTime(unsigned long long p_startTime){ startTime=p_startTime;}
+	inline ulong getUTime(){ return utime;}
+	inline void setUTime(ulong p_utime){ utime=p_utime;}
+	inline ulong getSTime(){ return stime;}
+	inline void setSTime(ulong p_stime){ stime=p_stime;}
+	inline const QString getSTimeStr(){ return timeToString(getSTime());}
+	inline const QString getUTimeStr(){ return timeToString(getUTime());}
 	inline int getProcessGroupId(){ return processGroupId;}
 	inline void setProcessGroupId(int p_processGroupId){ processGroupId=p_processGroupId;}
 	inline pid_t getSessionPId(){ return sessionPId;}
@@ -61,7 +69,7 @@ public:
 	inline QHash<uint,TProcessInfo*> *getSubProcesses(){ return &subprocess;}
 	inline TLinkList<TProcessInfo> *getThreads(){ return &threads;}
 	QString stateString();
-	QString timeToString(unsigned long long p_time);
+	const QString timeToString(unsigned long long p_time);
 	void getOpenFiles(QHash<int,QString> &p_map);
 };
 

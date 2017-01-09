@@ -60,6 +60,9 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 	ui.sessionPId_label->setText(QString::number(p_processInfo->getSessionPId()));
 	ui.vsize_label->setText(QString::number(p_processInfo->getVSize()));
 	ui.rss_label->setText(QString::number(p_processInfo->getRSS()));
+	ui.utime_label->setText(p_processInfo->getUTimeStr());
+	ui.stime_label->setText(p_processInfo->getSTimeStr());
+	
 	QStandardItemModel *l_model=new QStandardItemModel(0,3);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
