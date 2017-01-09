@@ -4,6 +4,12 @@
 #include <iostream>
 #include "src/base/utils.h"
 
+/**
+ *  This class fills the process list as a hierarchical tree
+ *  or a flat list.  (Depends on parameter of fillProcessList)
+ * 
+ */
+
 THyrFiller::THyrFiller(QWidget *p_parent,QTreeView *p_treeView,TProcessInfoList *p_processInfoList)
 {
 	fields=g_config.getFields();
@@ -15,7 +21,9 @@ THyrFiller::THyrFiller(QWidget *p_parent,QTreeView *p_treeView,TProcessInfoList 
 }
 
 /**
- *  Fills one row of processlist with data from process
+ *  Fills one row of processlist with data from process 
+ *  The fields displayed in the grid can be configured. First the configured list of fields (A QVector) is loaded 
+ *  Next for each field in the row the cell is filled with the corresponding value;
  * 
  * \param  p_procInfo - Object representing process. Row is filled with data from this process
  * \param  p_row      - Row number (relative from parent)

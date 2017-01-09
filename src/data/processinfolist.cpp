@@ -142,9 +142,26 @@ void TProcessInfoList::readThreads(QString p_path, TProcessInfo* p_parent)
 	
 }
 
+void TProcessInfoList::diff(TProcessInfoList* p_list)
+{
+	TLinkListIterator<TProcessInfo> l_iter(this);
+	TProcessInfo *l_pi;
+	TProcessInfo *l_prevPi;
+	while(l_iter.hasNext()){
+		l_pi=l_iter.next();
+		
+		l_prevPi=p_list->getByPid(l_pi->getPid());
+		if(l_prevPi != nullptr){
+			l_pi->setDiffSTime(l_pi->getSTime()-l_prevPi->getSTime());
+			l_pi->setDiffUTime(l_pi->getUTime()-l_prevPi->getUTime());
+		}
+	}
+}
 
 
-/** Add process to parent process
+/** 
+ *    Make process hierarchy. 
+ *    The parent process is set by ppid
  * 
  */
 void TProcessInfoList::toHyr()

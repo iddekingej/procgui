@@ -21,7 +21,7 @@ public:
 	
 	void readInfo();
 	inline TProcessInfo *getByPid(uint p_pid){ return pidIndex.value(p_pid,nullptr);}
-
+	void diff(TProcessInfoList *p_list);
 };
 
 #endif

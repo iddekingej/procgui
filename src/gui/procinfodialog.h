@@ -6,7 +6,8 @@
 #include "ui_procinfodialog.h"
 #include <QTimer>
 /**
- *   When clicking a process this dialog is popped-up with information about the selected process.
+ *   When clicking a process this dialog is popped-up with detail 
+ *   information about the selected process.
  */
 class TProcInfoDialog:public QDialog
 {
@@ -15,13 +16,13 @@ private slots:
 	void refreshInfo();
 private:
 	TProcessInfo *info;
-	TProcessInfoList *list;
+	TProcessInfoList *processList=nullptr;
 	Ui::procinfo ui;
 	QTimer refresh;
 	void fillData(TProcessInfo *p_processInfo);
 	void fillThreats();
 public:
-	TProcInfoDialog(TProcessInfo *p_procInfo,TProcessInfoList *p_procInfoList);
+	TProcInfoDialog(TProcessInfo *p_procInfo);
 	~TProcInfoDialog();
 };
 #endif

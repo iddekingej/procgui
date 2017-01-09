@@ -19,6 +19,8 @@ private:
 	unsigned long long startTime;
 	ulong utime;
 	ulong stime;
+	long diffUTime=-1;
+	long diffSTime=-1;
 	QString exe;
 	QString comm;
 	QString cwd;
@@ -47,20 +49,24 @@ public:
 	inline QString &getCmdLine(){return cmdLine;}
 	inline TProcessInfo *getParent(){ return parent;}
 	inline unsigned long long getStartTime(){ return startTime;}
-	inline void setStartTime(unsigned long long p_startTime){ startTime=p_startTime;}
+	inline void  setStartTime(unsigned long long p_startTime){ startTime=p_startTime;}
 	inline ulong getUTime(){ return utime;}
-	inline void setUTime(ulong p_utime){ utime=p_utime;}
+	inline void  setUTime(ulong p_utime){ utime=p_utime;}
 	inline ulong getSTime(){ return stime;}
-	inline void setSTime(ulong p_stime){ stime=p_stime;}
+	inline void  setSTime(ulong p_stime){ stime=p_stime;}
 	inline const QString getSTimeStr(){ return timeToString(getSTime());}
 	inline const QString getUTimeStr(){ return timeToString(getUTime());}
-	inline int getProcessGroupId(){ return processGroupId;}
-	inline void setProcessGroupId(int p_processGroupId){ processGroupId=p_processGroupId;}
+	inline long getDiffUTime(){ return diffUTime;}
+	inline void  setDiffUTime(long p_diffUTime){ diffUTime=p_diffUTime;}
+	inline long getDiffSTime(){ return diffSTime;}
+	inline void  setDiffSTime(long p_diffSTime){ diffSTime=p_diffSTime;}
+	inline int   getProcessGroupId(){ return processGroupId;}
+	inline void  setProcessGroupId(int p_processGroupId){ processGroupId=p_processGroupId;}
 	inline pid_t getSessionPId(){ return sessionPId;}
-	inline void setSessionPId(pid_t p_sessionPId){ sessionPId=p_sessionPId;}
-	inline void setVSize(ulong p_vsize){ vsize=p_vsize;}
+	inline void  setSessionPId(pid_t p_sessionPId){ sessionPId=p_sessionPId;}
+	inline void  setVSize(ulong p_vsize){ vsize=p_vsize;}
 	inline ulong getVSize(){return vsize;}
-	inline void setRSS(ulong p_rss){rss=p_rss;}
+	inline void  setRSS(ulong p_rss){rss=p_rss;}
 	inline ulong getRSS(){ return rss;}
 	void addSubProcess(TProcessInfo *p_processInfo);
 	void addThread(TProcessInfo *p_threadInfo);

@@ -5,11 +5,10 @@
 #include <QMapIterator>
 #include "src/base/linklist.h"
 
-TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo,TProcessInfoList *p_procInfoList)
+TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo)
 {
 	ui.setupUi(this);
 	info=p_procInfo;
-	list=p_procInfoList;
 	refreshInfo();
 	refresh.setInterval(1024);
 	refresh.start();
@@ -25,14 +24,17 @@ void TProcInfoDialog::refreshInfo()
 {
 	TProcessInfoList *l_list=new TProcessInfoList();
 	l_list->readInfo();
+	if(processList != nullptr) l_list->diff(processList);
 	TProcessInfo *l_pi=l_list->getByPid(info->getPid());
+	
 	if(l_pi != nullptr){
 		ui.deadWarning->setVisible(false);
 		fillData(l_pi);
 	} else {
 		ui.deadWarning->setVisible(true);
 	}
-	delete l_list;
+	if(processList != nullptr) delete processList;
+	processList=l_list;
 }
 
 
@@ -62,7 +64,8 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 	ui.rss_label->setText(QString::number(p_processInfo->getRSS()));
 	ui.utime_label->setText(p_processInfo->getUTimeStr());
 	ui.stime_label->setText(p_processInfo->getSTimeStr());
-	
+	ui.diffUTime_label->setText(QString::number(p_processInfo->getDiffUTime()));
+	ui.diffSTime_label->setText(QString::number(p_processInfo->getDiffSTime()));
 	QStandardItemModel *l_model=new QStandardItemModel(0,3);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
@@ -123,4 +126,5 @@ void TProcInfoDialog::fillThreats()
 
 TProcInfoDialog::~TProcInfoDialog()
 {
+	if(processList != nullptr) delete processList;
 }

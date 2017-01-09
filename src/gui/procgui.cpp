@@ -24,9 +24,15 @@
 #include "hyfiller.h"       
 #include <QStyledItemDelegate>
 #include <QPainter>
+/**
+ *  Main windows. This windows displays the processList.
+ *  
+ */
+
+
 
 /**
- * A Treeview doesn't have gridlines.
+ * A Treeview doesn't have grid lines.
  * This class is for painting grid lines in the tree.
  * 
  */
@@ -46,6 +52,12 @@ public:
         QStyledItemDelegate::paint(p_painter, p_option, p_index);
     }
 };
+
+
+/**
+ *  Constructor
+ *  Setup windows and initialize all events
+ */
 
 TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 {
@@ -80,6 +92,7 @@ TProcGui::~TProcGui()
 /**
  *   Fills/refresh the list with users. Before the refresh, the current selection is saved and restored after the refresh. 
  *   The list is sorted on the description. The associated data item  is the user id.
+ *   When the id=UINT_MAX this means display processes from  all users
  */
 
 void TProcGui::fillUserFilter()
@@ -131,12 +144,13 @@ void TProcGui::fillProcessList()
 {
 	TProcessInfoList *l_info=new TProcessInfoList();
 	l_info->readInfo();	
+	if(processInfo != nullptr) l_info->diff(processInfo);
 	fillUserFilter();
 	THyrFiller l_filler(this,ui->processList,l_info);
 	l_filler.setExeFilter(ui->exeFilter->text());
 	l_filler.setUserFilter(ui->userFilter->itemData(ui->userFilter->currentIndex()).toUInt());
 	l_filler.fillProcessList(g_config.getDisplayAsTree());
-	if(processInfo==nullptr) delete processInfo;
+	if(processInfo!=nullptr) delete processInfo;
 	processInfo=l_info;
 }
 
@@ -153,7 +167,7 @@ void TProcGui::doubleClickedGrid(const QModelIndex &p_index)
 			TProcessInfo *l_info=processInfo->getByPid(l_pid);
 			if(l_info != nullptr){
 				refresh.stop();
-				TProcInfoDialog l_dialog(l_info,processInfo);
+				TProcInfoDialog l_dialog(l_info);
 				l_dialog.exec();				
 				refresh.start();
 			}
@@ -206,8 +220,8 @@ void TProcGui::userFilterChange(int p_index)
 }
 
 /**
- *  This slot is called when the use selects a proces and clicks the "kill process" button. 
- *  First the selected proces is determined and then the process is killed.
+ *  This slot is called when the use selects a process and clicks the "kill process" button. 
+ *  First the selected process is determined and then the process is killed.
  */
 void TProcGui::killProcess()
 {
@@ -223,7 +237,8 @@ void TProcGui::killProcess()
 }
 
 /**
- *  This slot is called when the show details button is pressed. When no proces is selected a warning is displayed, otherwise 
+ *  This slot is called when the show details button is pressed. When no process is 
+ *  selected a warning is displayed, otherwise 
  *  the details dialog is displayed (same dialog when double clicking the process)
  */
 

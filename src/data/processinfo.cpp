@@ -3,7 +3,11 @@
 #include <unistd.h>
 #include <QDirIterator>
 /**
- * Stores process data in a QVector (for flexible displaying information)
+ * The fields displayed in the process list grid can be configured.
+ * Therefor a list is filled with all the information. The position in the list
+ * corresponds with the field list in base/fieldlist.h
+ * So please don't charge the order how p_info is filled.
+ * 
  * \param p_info List to fill with data (entry 0:pid 1:exec name)
  */
 void TProcessInfo::getInfo(QVector<QString>& p_info)
@@ -25,6 +29,8 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << QString::number(rss);
 	p_info << getSTimeStr();
 	p_info << getUTimeStr();
+	p_info << QString::number(getDiffUTime());
+	p_info << QString::number(getDiffSTime());
 	
 }
 

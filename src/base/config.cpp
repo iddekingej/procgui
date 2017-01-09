@@ -69,15 +69,7 @@ QVector<int>* TConfig::getFields()
 	return fields;
 }
 
-<<<<<<< HEAD
-
 /** 
-=======
-/**
->>>>>>> 7f7638b812df4b79b16116fea2423bf712f4e915
- * Set fields and field order displayed in proces list
- * see fieldlist.H
- * 
  * \param  list of displayed fields
  */
 void TConfig::setFields(QVariantList p_list)
