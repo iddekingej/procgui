@@ -1,6 +1,10 @@
 #include "fieldlist.h"
 #include <klocalizedstring.h>
-//List of fields shown in "Device" tab
+/**
+ *  List of fields showen in the proceslist. 
+ *  The selected fields are save as indexes of this array
+ *  The text is used as the column header. (please don't change the order)
+ */
 
 
 const  char *g_fields[]={
