@@ -22,6 +22,8 @@ const  char *g_fields[]={
 ,	I18N_NOOP("Session ID")
 ,	I18N_NOOP("Virtual mem. size")
 ,	I18N_NOOP("Res. mem. size")
+,	I18N_NOOP("User time")
+,	I18N_NOOP("System time")
 };
 const  int g_numFields=sizeof(g_fields)/sizeof(char*);
 

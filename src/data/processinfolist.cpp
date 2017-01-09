@@ -109,6 +109,8 @@ void TProcessInfoList::processStat(QString p_path, TProcessInfo* p_info)
 		p_info->setProcessGroupId(l_list[2].toInt());
 		p_info->setSessionPId(l_list[3].toLong());
 		p_info->setStartTime(l_list[19].toULongLong());
+		p_info->setUTime(l_list[11].toULong());
+		p_info->setSTime(l_list[12].toULong());
 		p_info->setVSize(l_list[20].toULong());
 		p_info->setRSS(l_list[21].toULong()*sysconf(_SC_PAGESIZE));
 	}
