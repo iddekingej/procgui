@@ -9,6 +9,7 @@
 #include "fieldconfig.h"
 #include "src/base/config.h"
 #include <klocalizedstring.h>
+#include <iostream>
 /** Save configuration after pressing "Ok" button
  */
 
@@ -50,6 +51,7 @@ void TFieldsConfig::moveItem(int p_diff)
 			}
 		}
 	}
+	scrollToSelected();
 }
 
 /**
@@ -114,6 +116,24 @@ int TFieldsConfig::getFAVisibleRow(int p_index)
 	return -1;
 }
 
+/**
+ *  Scroll current selected item in the selected field list into view
+ */
+void TFieldsConfig::scrollToSelected()
+{
+		QModelIndexList l_list=ui.fieldsSelected->selectionModel()->selectedIndexes();
+		if(l_list.size()>0){
+		std::cout <<l_list[0].row() <<std::endl;
+		ui.fieldsSelected->scrollTo(l_list[0]);
+		}
+}
+
+
+/**
+ *  Add Field to selection
+ * 
+ */
+
 void TFieldsConfig::addLabel()
 {
 	QModelIndexList l_list=ui.fieldsAvailable->selectionModel()->selectedIndexes();
@@ -143,7 +163,14 @@ void TFieldsConfig::addLabel()
 		
 	}
 	enableRemoveButton();
+	scrollToSelected();
 }
+
+/**
+ *  After a field is added to the selected field list, the field must 
+ *  be removed from the "available" list
+ * 
+ */
 
 void TFieldsConfig::hideByCode(QListView *p_view,int p_code,bool p_flag)
 {
@@ -156,6 +183,11 @@ void TFieldsConfig::hideByCode(QListView *p_view,int p_code,bool p_flag)
 		}
 	}
 }
+
+/**
+ *  Fill the 'available' list with all available fields.
+ * 
+ */
 
 void TFieldsConfig::fillAvailableList()
 {

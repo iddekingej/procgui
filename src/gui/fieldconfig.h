@@ -34,6 +34,7 @@ private:
 	void fillAvailableList();
 	void fillSelectedList();
 	int getFAVisibleRow(int p_index);
+	void scrollToSelected();
 public:
 	TFieldsConfig();
 	~TFieldsConfig();
