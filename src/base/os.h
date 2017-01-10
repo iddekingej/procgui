@@ -1,5 +1,5 @@
-#ifndef __OS_H_
-#define __OS_H_
+#ifndef _OS_H_
+#define _OS_H_
 
 #include <QString>
 #include <QMap>

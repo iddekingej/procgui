@@ -1,5 +1,5 @@
-#ifndef __PROCINFO_H_
-#define __PROCINFO_H_
+#ifndef _PROCINFODIALOG_H_
+#define _PROCINFODIALOG_H_
 #include <QDialog>
 #include "src/data/processinfo.h"
 #include "src/data/processinfolist.h"

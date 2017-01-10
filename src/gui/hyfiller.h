@@ -1,5 +1,5 @@
-#ifndef __HYRFILLER_H_
-#define __HYRFILLER_H_
+#ifndef _HYRFILLER_H_
+#define _HYRFILLER_H_
 
 #include <QStandardItemModel>
 #include <QStandardItem>

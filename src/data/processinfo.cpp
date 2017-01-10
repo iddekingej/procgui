@@ -27,8 +27,8 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << QString::number(sessionPId);
 	p_info << QString::number(vsize);
 	p_info << QString::number(rss);
-	p_info << getSTimeStr();
 	p_info << getUTimeStr();
+	p_info << getSTimeStr();
 	p_info << QString::number(getDiffUTime());
 	p_info << QString::number(getDiffSTime());
 	

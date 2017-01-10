@@ -1,5 +1,5 @@
-#ifndef __PROCESSINFOLIST_H_
-#define __PROCESSINFOLIST_H_
+#ifndef _PROCESSINFOLIST_H_
+#define _PROCESSINFOLIST_H_
 
 #include "src/base/linklist.h"
 #include "processinfo.h"

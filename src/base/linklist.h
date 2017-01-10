@@ -1,5 +1,5 @@
-#ifndef __LINKLIST_H_
-#define __LINKLIST_H_
+#ifndef _LINKLIST_H_
+#define _LINKLIST_H_
 #include <stdio.h>
 
 template<class T>

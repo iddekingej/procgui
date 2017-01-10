@@ -1,5 +1,5 @@
-#ifndef __UTILS_H_
-#define __UTILS_H_
+#ifndef _UTILS_H_
+#define _UTILS_H_
 #include <QString>
 
 #define qstr(p_string) ((p_string).toUtf8().data())

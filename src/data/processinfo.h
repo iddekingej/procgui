@@ -1,5 +1,5 @@
-#ifndef __PROCESSINFO_H_
-#define __PROCESSINFO_H_
+#ifndef _PROCESSINFO_H_
+#define _PROCESSINFO_H_
 #include <sys/types.h>
 #include <QString>
 #include <QVector>

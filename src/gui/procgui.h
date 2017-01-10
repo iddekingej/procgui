@@ -1,5 +1,5 @@
-#ifndef PROCGUI_H
-#define PROCGUI_H
+#ifndef _PROCGUI_H
+#define _PROCGUI_H
 
 #include <QMainWindow>
 #include "ui_procgui.h"

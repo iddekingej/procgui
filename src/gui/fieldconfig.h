@@ -1,5 +1,5 @@
-#ifndef __FIELDCONFIG_H_
-#define __FIELDCONFIG_H_
+#ifndef _FIELDCONFIG_H_
+#define _FIELDCONFIG_H_
 #include <QObject>
 #include <QDialog>
 #include <QStandardItemModel>
