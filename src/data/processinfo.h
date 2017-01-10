@@ -56,10 +56,12 @@ public:
 	inline void  setSTime(ulong p_stime){ stime=p_stime;}
 	inline const QString getSTimeStr(){ return timeToString(getSTime());}
 	inline const QString getUTimeStr(){ return timeToString(getUTime());}
+	inline const QString getTotalTimeStr(){ return timeToString(getUTime()+getSTime());}
 	inline long getDiffUTime(){ return diffUTime;}
 	inline void  setDiffUTime(long p_diffUTime){ diffUTime=p_diffUTime;}
 	inline long getDiffSTime(){ return diffSTime;}
 	inline void  setDiffSTime(long p_diffSTime){ diffSTime=p_diffSTime;}
+	inline long getDiffTotalTime(){ return diffUTime+diffSTime;}
 	inline int   getProcessGroupId(){ return processGroupId;}
 	inline void  setProcessGroupId(int p_processGroupId){ processGroupId=p_processGroupId;}
 	inline pid_t getSessionPId(){ return sessionPId;}

@@ -31,6 +31,8 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << getSTimeStr();
 	p_info << QString::number(getDiffUTime());
 	p_info << QString::number(getDiffSTime());
+	p_info << getTotalTimeStr();
+	p_info << QString::number(getDiffTotalTime());
 	
 }
 

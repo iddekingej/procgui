@@ -26,6 +26,8 @@ const  char *g_fields[]={
 ,	I18N_NOOP("System time")
 ,	I18N_NOOP("Diff. user time")
 ,	I18N_NOOP("Diff. system time")
+,	I18N_NOOP("Total time")
+,	I18N_NOOP("Diff. total time")
 };
 const  int g_numFields=sizeof(g_fields)/sizeof(char*);
 
