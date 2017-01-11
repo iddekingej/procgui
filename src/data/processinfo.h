@@ -5,6 +5,13 @@
 #include <QVector>
 #include <QHash>
 #include "src/base/linklist.h"
+#include "cgroupinfo.h"
+
+/**
+ * Class containing all the information about a process
+ * This information is read from /proc/#pidnummer/xxx
+ * See man proc
+ */
 
 class TProcessInfo
 {
@@ -70,15 +77,18 @@ public:
 	inline ulong getVSize(){return vsize;}
 	inline void  setRSS(ulong p_rss){rss=p_rss;}
 	inline ulong getRSS(){ return rss;}
+	inline QHash<uint,TProcessInfo*> *getSubProcesses(){ return &subprocess;}
+	inline TLinkList<TProcessInfo> *getThreads(){ return &threads;}	
 	void addSubProcess(TProcessInfo *p_processInfo);
 	void addThread(TProcessInfo *p_threadInfo);
 	QString getOwnerName();
 	void getInfo(QVector<QString> & p_info);
-	inline QHash<uint,TProcessInfo*> *getSubProcesses(){ return &subprocess;}
-	inline TLinkList<TProcessInfo> *getThreads(){ return &threads;}
+
 	QString stateString();
 	const QString timeToString(unsigned long long p_time);
-	void getOpenFiles(QHash<int,QString> &p_map);
+	void getOpenFiles(QHash<int,QString> &p_map);	
+	void getCGroups(TLinkList<TCGroupInfo> &p_info);
+
 };
 
 #endif

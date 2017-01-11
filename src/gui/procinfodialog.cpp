@@ -49,7 +49,7 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 {
 	ui.pid_label->setText(QString::number(p_processInfo->getPid()));
 	ui.ppid_label->setText(QString::number(p_processInfo->getPPid()));
-	ui.command_label->setText(p_processInfo->getExe());
+	ui.command_label->setText(p_processInfo->getComm());
 	if(p_processInfo->getParent()!=nullptr){
 		ui.parentCommand_label->setText(p_processInfo->getParent()->getExe());
 	} else {
@@ -83,7 +83,8 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 		l_rowCnt++;
 	}
 	ui.subProcessList->setModel(l_model);
-	fillThreats();
+	fillThreats(p_processInfo);
+	fillControlGroups(p_processInfo);
 	QStandardItemModel *l_fileModel=new QStandardItemModel(0,2);
 	l_fileModel->setHorizontalHeaderItem(0,new QStandardItem("Fd"));
 	l_fileModel->setHorizontalHeaderItem(1,new QStandardItem("File"));
@@ -107,12 +108,12 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
  * 
  */
 
-void TProcInfoDialog::fillThreats()
+void TProcInfoDialog::fillThreats(TProcessInfo *p_processInfo)
 {
 	QStandardItemModel *l_model=new QStandardItemModel(0,2);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
-	TLinkListIterator<TProcessInfo> l_iter(info->getThreads());
+	TLinkListIterator<TProcessInfo> l_iter(p_processInfo->getThreads());
 	int l_rowCnt=0;
 	TProcessInfo *l_pi;
 	while(l_iter.hasNext()){
@@ -122,6 +123,37 @@ void TProcInfoDialog::fillThreats()
 		l_rowCnt++;
 	}
 	ui.threads->setModel(l_model);
+	ui.threads->resizeRowsToContents();
+	ui.threads->resizeColumnsToContents();
+}
+
+/**
+ *  List of control group used in process
+ *  This information is read from /proc/#pid/cgroups 
+ *  This is only available when cgroups are compiled into the kernel
+ */
+
+void TProcInfoDialog::fillControlGroups(TProcessInfo *p_processInfo)
+{
+	QStandardItemModel *l_model=new QStandardItemModel(0,3);
+	l_model->setHorizontalHeaderItem(0,new QStandardItem("Hierarchy Id"));
+	l_model->setHorizontalHeaderItem(1,new QStandardItem("Controlled subsystem"));
+	l_model->setHorizontalHeaderItem(2,new QStandardItem("Control group"));
+	TLinkList<TCGroupInfo> l_cgroups;
+	p_processInfo->getCGroups(l_cgroups);
+	TLinkListIterator<TCGroupInfo> l_iter(l_cgroups);
+	int l_rowCnt=0;
+	TCGroupInfo *l_cgi;
+	while(l_iter.hasNext()){
+		l_cgi=l_iter.next();		
+		l_model->setItem(l_rowCnt,0,new QStandardItem(QString::number(l_cgi->getHierarchyId())));
+		l_model->setItem(l_rowCnt,1,new QStandardItem(l_cgi->getSubsystems()));
+		l_model->setItem(l_rowCnt,2,new QStandardItem(l_cgi->getCGroup()));
+		l_rowCnt++;
+	}
+	ui.controlGroups->setModel(l_model);
+	ui.controlGroups->resizeRowsToContents();
+	ui.controlGroups->resizeColumnsToContents();
 }
 
 

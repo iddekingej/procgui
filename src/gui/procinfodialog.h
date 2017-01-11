@@ -20,7 +20,8 @@ private:
 	Ui::procinfo ui;
 	QTimer refresh;
 	void fillData(TProcessInfo *p_processInfo);
-	void fillThreats();
+	void fillThreats(TProcessInfo *p_processInfo);
+	void fillControlGroups(TProcessInfo *p_processInfo);
 public:
 	TProcInfoDialog(TProcessInfo *p_procInfo);
 	~TProcInfoDialog();

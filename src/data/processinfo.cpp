@@ -2,6 +2,10 @@
 #include "src/base/os.h"
 #include <unistd.h>
 #include <QDirIterator>
+#include <QFile>
+#include <QTextStream>
+#include <iostream>
+#include "src/base/utils.h"
 /**
  * The fields displayed in the process list grid can be configured.
  * Therefor a list is filled with all the information. The position in the list
@@ -133,6 +137,31 @@ void TProcessInfo::getOpenFiles(QHash<int, QString>& p_map)
 		if(l_ok){
 			l_file=QFile::symLinkTarget(l_iter.filePath());
 			p_map.insert(l_fd,l_file);
+		}
+	}
+}
+
+void TProcessInfo::getCGroups(TLinkList<TCGroupInfo> &p_cgroupInfo)
+{
+	QFile l_file("/proc/"+QString::number(pid)+"/cgroup");
+	if(!l_file.open(QIODevice::ReadOnly|QIODevice::Text)){
+		std::cout <<"File not found" <<std::endl;
+		return ;
+	}
+	QTextStream l_stream(&l_file);
+	QString l_line;
+	int l_hierachyId;
+	bool l_ok;
+	while(true){
+		l_line=l_stream.readLine();
+		if(l_line.isNull()) break;
+		QStringList l_ci=l_line.split(":");
+		
+		if(l_ci.size() == 3){
+			l_hierachyId=l_ci[0].toInt(&l_ok);
+			if(l_ok){
+				p_cgroupInfo.append(new TCGroupInfo(l_hierachyId,l_ci[1],l_ci[2]));
+			}
 		}
 	}
 }
