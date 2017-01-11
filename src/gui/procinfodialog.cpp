@@ -13,6 +13,7 @@ TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo)
 	refresh.setInterval(1024);
 	refresh.start();
 	connect(&refresh,SIGNAL(timeout()),this,SLOT(refreshInfo()));
+	connect(ui.close_button,SIGNAL(pressed()),this,SLOT(close()));
 }
 
 /***
