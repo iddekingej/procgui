@@ -148,9 +148,7 @@ void TProcGui::fillUserFilter(TProcessInfoList *p_processList)
 		
 	}
 	ui->userFilter->setModelColumn(0);
-	QAbstractItemModel *l_oldModel=ui->userFilter->model();
 	ui->userFilter->setModel(l_model);
-	if(l_oldModel != nullptr) delete l_oldModel;
 	ui->userFilter->setCurrentIndex(l_selectedIndex);	
 	userSelection->resizeRowsToContents();
 	userSelection->resizeColumnsToContents();
