@@ -24,6 +24,8 @@
 #include "hyfiller.h"       
 #include <QStyledItemDelegate>
 #include <QPainter>
+#include <QTableView>
+#include <klocalizedstring.h>
 /**
  *  Main windows. This windows displays the processList.
  *  
@@ -77,9 +79,14 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	connect(ui->killButton,SIGNAL(clicked()),this,SLOT(killProcess()));
 	connect(ui->detailsButton,SIGNAL(clicked()),this,SLOT(showDetails()));
 	connect(ui->displayAsTree,SIGNAL(clicked()),this,SLOT(checkDisplayAsTree()));
-	fillProcessList();
 	ui->displayAsTree->setCheckState(g_config.getDisplayAsTree()?Qt::Checked:Qt::Unchecked);
 	ui->processList->setItemDelegate(new TGridDelegate(ui->processList));
+	userSelection=new QTableView(this);
+	ui->userFilter->setView(userSelection);
+	userSelection->setSelectionBehavior(QAbstractItemView::SelectRows);
+	userSelection->setSelectionMode(QAbstractItemView::SingleSelection);
+	userSelection->verticalHeader()->setVisible(false);
+	refreshTimeout();
 }
 
 TProcGui::~TProcGui()
@@ -93,34 +100,55 @@ TProcGui::~TProcGui()
  *   Fills/refresh the list with users. Before the refresh, the current selection is saved and restored after the refresh. 
  *   The list is sorted on the description. The associated data item  is the user id.
  *   When the id=UINT_MAX this means display processes from  all users
+ * 
+ *   \param p_processList - process list, this information is used for marking users with a running proces.
  */
 
-void TProcGui::fillUserFilter()
+void TProcGui::fillUserFilter(TProcessInfoList *p_processList)
 {
 	QMap<uint,QString> l_list;
+	QSet<int> l_uids;
+
 	getAllUsers(l_list);	
+	p_processList->uidWithProcess(l_uids);
 	QMapIterator<uint,QString> l_iter(l_list);
 	uint l_selectedUid;
+	QStandardItemModel *l_model=new QStandardItemModel(0,2);
+	l_model->setHorizontalHeaderItem(0,new QStandardItem(i18n("User")));
+	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Proces owner?")));
+	
 	if(ui->userFilter->currentIndex() ==-1){		
 		l_selectedUid=getuid();
 		if(l_selectedUid==0)l_selectedUid=UINT_MAX;//Root user? display all
 	} else {
-		l_selectedUid=ui->userFilter->itemData(ui->userFilter->currentIndex()).toUInt();
+		l_selectedUid=ui->userFilter->itemData(ui->userFilter->currentIndex(),Qt::UserRole+1).toUInt();
 	}
 	ui->userFilter->blockSignals(true);
-	ui->userFilter->clear();
 	int l_index=1;
 	int l_selectedIndex=0;
-	ui->userFilter->addItem("All users",UINT_MAX);
+	QStandardItem *l_item;
+	l_item=new QStandardItem("All users");
+	l_item->setData(UINT_MAX);
+	l_model->setItem(0,0,l_item);
+	l_model->setItem(0,1,new QStandardItem(""));			
 	while(l_iter.hasNext()){
 		l_iter.next();
 		if(l_iter.key()==l_selectedUid) l_selectedIndex=l_index;
-		ui->userFilter->addItem(l_iter.value(),l_iter.key());
+		l_item=new QStandardItem(l_iter.value());
+		l_item->setData(l_iter.key());
+		l_model->setItem(l_index,0,l_item);
+		l_model->setItem(l_index,1,new QStandardItem(l_uids.contains(l_iter.key())?"X":""));		
 		l_index++;
+		
 	}
-	ui->userFilter->setCurrentIndex(l_selectedIndex);
-	ui->userFilter->model()->sort(0);
+	ui->userFilter->setModelColumn(0);
+	ui->userFilter->setModel(l_model);
+	ui->userFilter->setCurrentIndex(l_selectedIndex);	
+	userSelection->resizeRowsToContents();
+	userSelection->resizeColumnsToContents();
 	ui->userFilter->blockSignals(false);
+	l_model->sort(0);
+
 }
 
 /**
@@ -132,7 +160,7 @@ void TProcGui::checkDisplayAsTree()
 {
 	g_config.setDisplayAsTree(ui->displayAsTree->checkState()==Qt::Checked);
 	g_config.sync();
-	fillProcessList();
+	fillProcessList(processInfo);
 }
 
 /**
@@ -140,18 +168,13 @@ void TProcGui::checkDisplayAsTree()
  * 
  */
 
-void TProcGui::fillProcessList()
+void TProcGui::fillProcessList(TProcessInfoList* p_processList)
 {
-	TProcessInfoList *l_info=new TProcessInfoList();
-	l_info->readInfo();	
-	if(processInfo != nullptr) l_info->diff(processInfo);
-	fillUserFilter();
-	THyrFiller l_filler(this,ui->processList,l_info);
+
+	THyrFiller l_filler(this,ui->processList,p_processList);
 	l_filler.setExeFilter(ui->exeFilter->text());
-	l_filler.setUserFilter(ui->userFilter->itemData(ui->userFilter->currentIndex()).toUInt());
+	l_filler.setUserFilter(ui->userFilter->itemData(ui->userFilter->currentIndex(),Qt::UserRole+1).toUInt());
 	l_filler.fillProcessList(g_config.getDisplayAsTree());
-	if(processInfo!=nullptr) delete processInfo;
-	processInfo=l_info;
 }
 
 /** 
@@ -185,7 +208,7 @@ void TProcGui::fieldsDialog()
 {	
 	TFieldsConfig l_fieldConfig;
 	l_fieldConfig.exec();
-	fillProcessList();
+	fillProcessList(processInfo);
 }
 
 /**
@@ -206,7 +229,14 @@ void TProcGui::resizeEvent(QResizeEvent *p_event)
  */
 void TProcGui::refreshTimeout()
 {
-	fillProcessList();
+	
+	TProcessInfoList *l_info=new TProcessInfoList();
+	l_info->readInfo();	
+	if(processInfo != nullptr) l_info->diff(processInfo);
+	fillUserFilter(l_info);
+	fillProcessList(l_info);
+	if(processInfo != nullptr) delete processInfo;
+	processInfo=l_info;
 }
 
 /**
@@ -216,7 +246,7 @@ void TProcGui::refreshTimeout()
 
 void TProcGui::userFilterChange(int p_index)
 {
-	fillProcessList();
+	fillProcessList(processInfo);
 }
 
 /**

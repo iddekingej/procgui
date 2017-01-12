@@ -9,6 +9,7 @@
 #include <QModelIndexList>
 #include <QStandardItemModel>
 #include "src/data/processinfolist.h"
+#include <QTableView>
 class TProcGui : public QMainWindow
 {
     Q_OBJECT
@@ -25,8 +26,9 @@ private:
 	Ui::procgui *ui;    
 	QTimer refresh;
 	TProcessInfoList *processInfo=nullptr;
-	void fillProcessList();
-	void fillUserFilter();
+	QTableView *userSelection;
+	void fillProcessList(TProcessInfoList *p_processList);
+	void fillUserFilter(TProcessInfoList *p_processList);
 public:
 	explicit TProcGui(QWidget *parent = 0);
 	~TProcGui();

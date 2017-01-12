@@ -6,6 +6,7 @@
 #include "src/base/utils.h"
 #include <unistd.h>
 #include <QFileInfo>
+#include <QSet>
 /**
  *  Read all processinformation from the /proc folder
  * 
@@ -142,6 +143,13 @@ void TProcessInfoList::readThreads(QString p_path, TProcessInfo* p_parent)
 	
 }
 
+/**
+ *  Set the  for some of the fields difference with previous process.
+ *  Currently only the difference of STime and UTime are calculated
+ * 
+ *  \param p_list - "Previous " processlist.  If process is found in this list the difference is calculated, 
+ */
+
 void TProcessInfoList::diff(TProcessInfoList* p_list)
 {
 	TLinkListIterator<TProcessInfo> l_iter(this);
@@ -174,6 +182,22 @@ void TProcessInfoList::toHyr()
 		l_parent=pidIndex.value(l_pi->getPPid(),nullptr);
 		l_pi->setParent(l_parent);
 		if(l_parent != nullptr) l_parent->addSubProcess(l_pi);	
+	}
+}
+
+/** 
+ *   Get the set of uids which process owner in this list
+ * 
+ *  \param p_uids A set
+ */
+
+void TProcessInfoList::uidWithProcess(QSet<int> &p_uids)
+{
+	p_uids.clear();
+	
+	TLinkListIterator<TProcessInfo> l_iter(this);	
+	while(l_iter.hasNext()){		
+		p_uids += l_iter.next()->getOwnerId();
 	}
 }
 
