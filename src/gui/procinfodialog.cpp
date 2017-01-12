@@ -67,7 +67,7 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 	ui.stime_label->setText(p_processInfo->getSTimeStr());
 	ui.diffUTime_label->setText(QString::number(p_processInfo->getDiffUTime()));
 	ui.diffSTime_label->setText(QString::number(p_processInfo->getDiffSTime()));
-	QStandardItemModel *l_model=new QStandardItemModel(0,3);
+	QStandardItemModel *l_model=new QStandardItemModel(0,3,this);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
 	l_model->setHorizontalHeaderItem(2,new QStandardItem("Command line"));
@@ -85,7 +85,7 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 	ui.subProcessList->setModel(l_model);
 	fillThreats(p_processInfo);
 	fillControlGroups(p_processInfo);
-	QStandardItemModel *l_fileModel=new QStandardItemModel(0,2);
+	QStandardItemModel *l_fileModel=new QStandardItemModel(0,2,this);
 	l_fileModel->setHorizontalHeaderItem(0,new QStandardItem("Fd"));
 	l_fileModel->setHorizontalHeaderItem(1,new QStandardItem("File"));
 	QHash<int,QString> l_openFiles;
@@ -110,7 +110,7 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 
 void TProcInfoDialog::fillThreats(TProcessInfo *p_processInfo)
 {
-	QStandardItemModel *l_model=new QStandardItemModel(0,2);
+	QStandardItemModel *l_model=new QStandardItemModel(0,2,this);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
 	TLinkListIterator<TProcessInfo> l_iter(p_processInfo->getThreads());
@@ -135,7 +135,7 @@ void TProcInfoDialog::fillThreats(TProcessInfo *p_processInfo)
 
 void TProcInfoDialog::fillControlGroups(TProcessInfo *p_processInfo)
 {
-	QStandardItemModel *l_model=new QStandardItemModel(0,3);
+	QStandardItemModel *l_model=new QStandardItemModel(0,3,this);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem("Hierarchy Id"));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem("Controlled subsystem"));
 	l_model->setHorizontalHeaderItem(2,new QStandardItem("Control group"));

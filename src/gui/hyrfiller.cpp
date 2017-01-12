@@ -222,7 +222,11 @@ void THyrFiller::fillProcessList(bool p_asTree)
 		l_cnt++;		
 	}
 	processList->setUpdatesEnabled(false);
+	QAbstractItemModel *l_model=processList->model();
+	QItemSelectionModel *l_selModel=processList->selectionModel();
 	processList->setModel(model);	
+	if(l_model != nullptr) delete l_model;
+	if(l_selModel != nullptr) delete l_selModel;
 	restoreExpanded();
 	selectProcesses(newSelected);
 	processList->setUpdatesEnabled(true);

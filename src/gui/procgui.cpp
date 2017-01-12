@@ -26,6 +26,7 @@
 #include <QPainter>
 #include <QTableView>
 #include <klocalizedstring.h>
+#include <QAbstractItemModel>
 /**
  *  Main windows. This windows displays the processList.
  *  
@@ -113,13 +114,18 @@ void TProcGui::fillUserFilter(TProcessInfoList *p_processList)
 	p_processList->uidWithProcess(l_uids);
 	QMapIterator<uint,QString> l_iter(l_list);
 	uint l_selectedUid;
-	QStandardItemModel *l_model=new QStandardItemModel(0,2);
+	QStandardItemModel *l_model=new QStandardItemModel(0,2,this);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem(i18n("User")));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Proces owner?")));
 	
-	if(ui->userFilter->currentIndex() ==-1){		
+	/**
+	 * If nothing is selected, use current user as selection
+	 * If current user=root, than select "All users" as default.
+	 */
+	
+	if(ui->userFilter->currentIndex() ==-1){
 		l_selectedUid=getuid();
-		if(l_selectedUid==0)l_selectedUid=UINT_MAX;//Root user? display all
+		if(l_selectedUid==0)l_selectedUid=UINT_MAX;
 	} else {
 		l_selectedUid=ui->userFilter->itemData(ui->userFilter->currentIndex(),Qt::UserRole+1).toUInt();
 	}
@@ -142,7 +148,9 @@ void TProcGui::fillUserFilter(TProcessInfoList *p_processList)
 		
 	}
 	ui->userFilter->setModelColumn(0);
+	QAbstractItemModel *l_oldModel=ui->userFilter->model();
 	ui->userFilter->setModel(l_model);
+	if(l_oldModel != nullptr) delete l_oldModel;
 	ui->userFilter->setCurrentIndex(l_selectedIndex);	
 	userSelection->resizeRowsToContents();
 	userSelection->resizeColumnsToContents();
