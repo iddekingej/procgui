@@ -50,17 +50,17 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 QString TProcessInfo::stateString()
 {
 	switch(getState()){
-		case 'R': return "Running";
-		case 'S': return "Sleeping";
-		case 'D': return "Waiting in uninterruptible disk sleep";
-		case 'Z': return "Zombie";
-		case 'T': return "Stopped(on a signal)";
-		case 't': return "Tracing stop";
-		case 'W': return "Paging/Waking";
-		case 'X': return "Dead";
-		case 'x': return "Dead";
-		case 'K': return "Wake kill";
-		case 'P': return "Parked";
+		case 'R': return QStringLiteral("Running");
+		case 'S': return QStringLiteral("Sleeping");
+		case 'D': return QStringLiteral("Waiting in uninterruptible disk sleep");
+		case 'Z': return QStringLiteral("Zombie");
+		case 'T': return QStringLiteral("Stopped(on a signal)");
+		case 't': return QStringLiteral("Tracing stop");
+		case 'W': return QStringLiteral("Paging/Waking");
+		case 'X': return QStringLiteral("Dead");
+		case 'x': return QStringLiteral("Dead");
+		case 'K': return QStringLiteral("Wake kill");
+		case 'P': return QStringLiteral("Parked");
 		default:
 			return QString("Unknown ")+getState();
 	}
@@ -127,7 +127,7 @@ const QString TProcessInfo::timeToString(unsigned long long p_time)
 
 void TProcessInfo::getOpenFiles(QHash<int, QString>& p_map)
 {
-	QString l_path="/proc/"+QString::number(pid)+"/fd/";
+	QString l_path=QStringLiteral("/proc/")+QString::number(pid)+QStringLiteral("/fd/");
 	QDirIterator l_iter(l_path);
 	bool l_ok;
 	QString l_file;
@@ -143,7 +143,7 @@ void TProcessInfo::getOpenFiles(QHash<int, QString>& p_map)
 
 void TProcessInfo::getCGroups(TLinkList<TCGroupInfo> &p_cgroupInfo)
 {
-	QFile l_file("/proc/"+QString::number(pid)+"/cgroup");
+	QFile l_file(QStringLiteral("/proc/")+QString::number(pid)+QStringLiteral("/cgroup"));
 	if(!l_file.open(QIODevice::ReadOnly|QIODevice::Text)){
 		std::cout <<"File not found" <<std::endl;
 		return ;

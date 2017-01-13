@@ -2,7 +2,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QIODevice>
-
+#include <QStringBuilder>
 
 /**
  * Used for reading files in /sys/block
@@ -33,7 +33,7 @@ bool readLong(QString p_path,QString p_name,unsigned long &p_value)
 bool readString(QString p_path,QString p_name,QString &p_value)
 {
 	bool l_succes;	
-	QFile l_file(p_path+"/"+p_name);
+	QFile l_file(p_path%"/"%p_name);
 	if(!l_file.open(QIODevice::ReadOnly|QIODevice::Text)){
 		p_value= QStringLiteral("");
 		return false;
@@ -44,4 +44,21 @@ bool readString(QString p_path,QString p_name,QString &p_value)
 	l_file.close();
 	
 	return l_succes;
+}
+
+
+/**
+ *  When setting a new model, the old model and the selection model needs to be deleted (see qt docs)
+ * 
+ * \param p_view - View who's model needs to be set.
+ * \param p_model - p_view is set with model p_model
+ */
+
+void setViewModel(QAbstractItemView *p_view,QStandardItemModel *p_model)
+{
+	QAbstractItemModel *l_oldModel=p_view->model();
+	QItemSelectionModel *l_oldSelection=p_view->selectionModel();
+	p_view->setModel(p_model);
+	delete l_oldModel;
+	delete l_oldSelection;
 }

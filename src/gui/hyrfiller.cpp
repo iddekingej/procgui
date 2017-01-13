@@ -143,8 +143,9 @@ void THyrFiller::getSelected()
 
 
 /**
+ *   Check which nodes are expanded. Called recursive from getExpanded 
  * 
- * 
+ *   \param p_item  Check which children from p_item are expanded.
  */
 void THyrFiller::getExpandedChilderen(QStandardItem* p_item)
 {
@@ -159,6 +160,11 @@ void THyrFiller::getExpandedChilderen(QStandardItem* p_item)
 	}
 }
 
+/**
+ *  Get which nodes from the process list are expanded, the expand 
+ * state is restored after the process list is restored.
+ * 
+ */
 
 void THyrFiller::getExpanded()
 {
@@ -179,6 +185,11 @@ void THyrFiller::getExpanded()
 	}
 }
 
+/**
+ *  	Fill the process list.
+ *  
+ *      \param p_asTree true-fill it as a tree , or false=fill as flat list.
+ */
 
 void THyrFiller::fillProcessList(bool p_asTree)
 {
@@ -222,11 +233,7 @@ void THyrFiller::fillProcessList(bool p_asTree)
 		l_cnt++;		
 	}
 	processList->setUpdatesEnabled(false);
-	QAbstractItemModel *l_model=processList->model();
-	QItemSelectionModel *l_selModel=processList->selectionModel();
-	processList->setModel(model);	
-	if(l_model != nullptr) delete l_model;
-	if(l_selModel != nullptr) delete l_selModel;
+	setViewModel(processList,model);
 	restoreExpanded();
 	selectProcesses(newSelected);
 	processList->setUpdatesEnabled(true);

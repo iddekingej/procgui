@@ -7,13 +7,15 @@
 #include <unistd.h>
 #include <QFileInfo>
 #include <QSet>
+#include <QStringBuilder>
+
 /**
  *  Read all processinformation from the /proc folder
  * 
  */
 void TProcessInfoList::readInfo()
 {
-	QDirIterator l_iter("/proc");
+	QDirIterator l_iter(QStringLiteral("/proc"));
 	pid_t l_id;
 	bool l_ok;
 	TProcessInfo *l_info;
@@ -41,7 +43,7 @@ void TProcessInfoList::readInfo()
  */
 TProcessInfo * TProcessInfoList::readInfoFromPid(pid_t p_pid)
 {
-	QString l_path="/proc/"+QString::number(p_pid);
+	QString l_path=QStringLiteral("/proc/")+QString::number(p_pid);
 	TProcessInfo *l_info=new TProcessInfo();
 	l_info->setPid(p_pid);
 	l_info->setOwnerId(QFileInfo(l_path).ownerId());
@@ -62,15 +64,15 @@ TProcessInfo * TProcessInfoList::readInfoFromPid(pid_t p_pid)
 void TProcessInfoList::readProcess(QString p_path, TProcessInfo *p_info)
 {
 	
-	QString l_exe=QFile::symLinkTarget(p_path+"/exe");
+	QString l_exe=QFile::symLinkTarget(p_path+QStringLiteral("/exe"));
 	p_info->setExec(l_exe);
 	QString l_str;
 	readString(p_path,"comm",l_str);
 	p_info->setComm(l_str);	
-	l_str=QFile::symLinkTarget(p_path+"/cwd");
+	l_str=QFile::symLinkTarget(p_path+QStringLiteral("/cwd"));
 	p_info->setCWD(l_str);
 	processStat(p_path,p_info);
-	readString(p_path,"cmdline",l_str);
+	readString(p_path,QStringLiteral("cmdline"),l_str);
 	p_info->setCmdLine(l_str);
 	readThreads(p_path,p_info);
 
@@ -98,12 +100,12 @@ void TProcessInfoList::processStat(QString p_path, TProcessInfo* p_info)
 {
 	QString l_stat;
 	
-	readString(p_path,"stat",l_stat);	
+	readString(p_path,QStringLiteral("stat"),l_stat);	
 	if(l_stat.length()==0) return;
-	int l_end=l_stat.indexOf(")");
+	int l_end=l_stat.indexOf(')');
 	if(l_end<0) return;
 	while(l_end < l_stat.size() && l_stat[l_end]!=' ') l_end++;
-	QStringList l_list=l_stat.mid(l_end+1).split(' ');
+	QVector<QStringRef> l_list=l_stat.midRef(l_end+1).split(' ');
 	if(l_list.length()>2){
 		p_info->setState(l_list[0].at(0).toLatin1());
 		p_info->setPPid(l_list[1].toLong());	
@@ -125,7 +127,7 @@ void TProcessInfoList::processStat(QString p_path, TProcessInfo* p_info)
 
 void TProcessInfoList::readThreads(QString p_path, TProcessInfo* p_parent)
 {
-	QDirIterator l_iter(p_path+"/task");
+	QDirIterator l_iter(p_path+QStringLiteral("/task"));
 	pid_t l_id;
 	bool l_ok;
 	TProcessInfo *l_info;	

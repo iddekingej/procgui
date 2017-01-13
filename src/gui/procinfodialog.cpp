@@ -4,6 +4,7 @@
 #include <QHashIterator>
 #include <QMapIterator>
 #include "src/base/linklist.h"
+#include "src/base/utils.h"
 
 TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo)
 {
@@ -82,7 +83,7 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 		l_model->setItem(l_rowCnt,2,new QStandardItem(l_pi->getCmdLine()));
 		l_rowCnt++;
 	}
-	ui.subProcessList->setModel(l_model);
+	setViewModel(ui.subProcessList,l_model);	
 	fillThreats(p_processInfo);
 	fillControlGroups(p_processInfo);
 	QStandardItemModel *l_fileModel=new QStandardItemModel(0,2,this);
@@ -98,7 +99,7 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 		l_fileModel->setItem(l_rowCnt,1,new QStandardItem(l_oi.value()));
 		l_rowCnt++;
 	}
-	ui.openFiles->setModel(l_fileModel);
+	setViewModel(ui.openFiles,l_fileModel);	
 	ui.openFiles->resizeColumnsToContents();
 	ui.openFiles->resizeRowsToContents();
 }
@@ -122,7 +123,8 @@ void TProcInfoDialog::fillThreats(TProcessInfo *p_processInfo)
 		l_model->setItem(l_rowCnt,1,new QStandardItem(l_pi->getComm()));
 		l_rowCnt++;
 	}
-	ui.threads->setModel(l_model);
+	
+	setViewModel(ui.threads,l_model);	
 	ui.threads->resizeRowsToContents();
 	ui.threads->resizeColumnsToContents();
 }
@@ -151,7 +153,7 @@ void TProcInfoDialog::fillControlGroups(TProcessInfo *p_processInfo)
 		l_model->setItem(l_rowCnt,2,new QStandardItem(l_cgi->getCGroup()));
 		l_rowCnt++;
 	}
-	ui.controlGroups->setModel(l_model);
+	setViewModel(ui.controlGroups,l_model);	
 	ui.controlGroups->resizeRowsToContents();
 	ui.controlGroups->resizeColumnsToContents();
 }
