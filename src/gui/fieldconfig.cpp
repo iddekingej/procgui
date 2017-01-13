@@ -201,6 +201,10 @@ void TFieldsConfig::fillAvailableList()
 	ui.fieldsAvailable->setModel(modelAvailable);
 }
 
+/**
+ * Select list is the list of fields displayed in the process list on the main window
+ * This function fills this list from the configuration.
+ */
 void TFieldsConfig::fillSelectedList()
 {
 	QStandardItem *l_item;

@@ -5,6 +5,8 @@
 #include <QMapIterator>
 #include "src/base/linklist.h"
 #include "src/base/utils.h"
+#include <klocalizedstring.h>
+
 
 TProcInfoDialog::TProcInfoDialog(TProcessInfo *p_procInfo)
 {
@@ -69,9 +71,9 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 	ui.diffUTime_label->setText(QString::number(p_processInfo->getDiffUTime()));
 	ui.diffSTime_label->setText(QString::number(p_processInfo->getDiffSTime()));
 	QStandardItemModel *l_model=new QStandardItemModel(0,3,this);
-	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
-	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
-	l_model->setHorizontalHeaderItem(2,new QStandardItem("Command line"));
+	l_model->setHorizontalHeaderItem(0,new QStandardItem(i18n("Pid")));
+	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Command")));
+	l_model->setHorizontalHeaderItem(2,new QStandardItem(i18n("Command line")));
 	QHashIterator<uint,TProcessInfo *> l_iter(*(p_processInfo->getSubProcesses()));
 	int l_rowCnt=0;
 	TProcessInfo *l_pi;
@@ -87,8 +89,8 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 	fillThreats(p_processInfo);
 	fillControlGroups(p_processInfo);
 	QStandardItemModel *l_fileModel=new QStandardItemModel(0,2,this);
-	l_fileModel->setHorizontalHeaderItem(0,new QStandardItem("Fd"));
-	l_fileModel->setHorizontalHeaderItem(1,new QStandardItem("File"));
+	l_fileModel->setHorizontalHeaderItem(0,new QStandardItem(i18n("Fd")));
+	l_fileModel->setHorizontalHeaderItem(1,new QStandardItem(i18n("File")));
 	QHash<int,QString> l_openFiles;
 	p_processInfo->getOpenFiles(l_openFiles);
 	QHashIterator<int,QString> l_oi(l_openFiles);
@@ -112,8 +114,8 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 void TProcInfoDialog::fillThreats(TProcessInfo *p_processInfo)
 {
 	QStandardItemModel *l_model=new QStandardItemModel(0,2,this);
-	l_model->setHorizontalHeaderItem(0,new QStandardItem("Pid"));
-	l_model->setHorizontalHeaderItem(1,new QStandardItem("Command"));
+	l_model->setHorizontalHeaderItem(0,new QStandardItem(i18n("Pid")));
+	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Command")));
 	TLinkListIterator<TProcessInfo> l_iter(p_processInfo->getThreads());
 	int l_rowCnt=0;
 	TProcessInfo *l_pi;
@@ -138,9 +140,9 @@ void TProcInfoDialog::fillThreats(TProcessInfo *p_processInfo)
 void TProcInfoDialog::fillControlGroups(TProcessInfo *p_processInfo)
 {
 	QStandardItemModel *l_model=new QStandardItemModel(0,3,this);
-	l_model->setHorizontalHeaderItem(0,new QStandardItem("Hierarchy Id"));
-	l_model->setHorizontalHeaderItem(1,new QStandardItem("Controlled subsystem"));
-	l_model->setHorizontalHeaderItem(2,new QStandardItem("Control group"));
+	l_model->setHorizontalHeaderItem(0,new QStandardItem(i18n("Hierarchy Id")));
+	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Controlled subsystem")));
+	l_model->setHorizontalHeaderItem(2,new QStandardItem(i18n("Control group")));
 	TLinkList<TCGroupInfo> l_cgroups;
 	p_processInfo->getCGroups(l_cgroups);
 	TLinkListIterator<TCGroupInfo> l_iter(l_cgroups);

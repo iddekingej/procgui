@@ -1,0 +1,133 @@
+#: src/base/fieldlist.cpp:11 src/gui/procinfodialog.cpp:74
+#: src/gui/procinfodialog.cpp:117
+msgid "Pid"
+msgstr ""
+
+#: src/base/fieldlist.cpp:12
+msgid "Parent pid"
+msgstr ""
+
+#: src/base/fieldlist.cpp:13
+msgid "Executable"
+msgstr ""
+
+#: src/base/fieldlist.cpp:14 src/gui/procinfodialog.cpp:75
+#: src/gui/procinfodialog.cpp:118
+msgid "Command"
+msgstr ""
+
+#: src/base/fieldlist.cpp:15
+msgid "State"
+msgstr ""
+
+#: src/base/fieldlist.cpp:16
+msgid "Owner id"
+msgstr ""
+
+#: src/base/fieldlist.cpp:17
+msgid "Owner username"
+msgstr ""
+
+#: src/base/fieldlist.cpp:18
+msgid "Current working directory"
+msgstr ""
+
+#: src/base/fieldlist.cpp:19 src/gui/procinfodialog.cpp:76
+msgid "Command line"
+msgstr ""
+
+#: src/base/fieldlist.cpp:20
+msgid "Start time"
+msgstr ""
+
+#: src/base/fieldlist.cpp:21
+msgid "Process group ID"
+msgstr ""
+
+#: src/base/fieldlist.cpp:22
+msgid "Session ID"
+msgstr ""
+
+#: src/base/fieldlist.cpp:23
+msgid "Virtual mem. size"
+msgstr ""
+
+#: src/base/fieldlist.cpp:24
+msgid "Res. mem. size"
+msgstr ""
+
+#: src/base/fieldlist.cpp:25
+msgid "User time"
+msgstr ""
+
+#: src/base/fieldlist.cpp:26
+msgid "System time"
+msgstr ""
+
+#: src/base/fieldlist.cpp:27
+msgid "Diff. user time"
+msgstr ""
+
+#: src/base/fieldlist.cpp:28
+msgid "Diff. system time"
+msgstr ""
+
+#: src/base/fieldlist.cpp:29
+msgid "Total time"
+msgstr ""
+
+#: src/base/fieldlist.cpp:30
+msgid "Diff. total time"
+msgstr ""
+
+#: src/gui/procgui.cpp:118
+msgid "User"
+msgstr ""
+
+#: src/gui/procgui.cpp:119
+msgid "Proces owner?"
+msgstr ""
+
+#: src/gui/procgui.cpp:288
+msgid "Please select a process first"
+msgstr ""
+
+#: src/gui/procinfodialog.cpp:92
+msgid "Fd"
+msgstr ""
+
+#: src/gui/procinfodialog.cpp:93
+msgid "File"
+msgstr ""
+
+#: src/gui/procinfodialog.cpp:143
+msgid "Hierarchy Id"
+msgstr ""
+
+#: src/gui/procinfodialog.cpp:144
+msgid "Controlled subsystem"
+msgstr ""
+
+#: src/gui/procinfodialog.cpp:145
+msgid "Control group"
+msgstr ""
+
+#: src/main.cpp:17
+msgid "Process List"
+msgstr ""
+
+#: src/main.cpp:19 src/main.cpp:26
+msgid "X"
+msgstr ""
+
+#: src/main.cpp:21
+msgid "(C) 2016"
+msgstr ""
+
+#: src/main.cpp:22
+msgid "x"
+msgstr ""
+
+#: src/main.cpp:26
+msgid "Jeroen van Iddekinge"
+msgstr ""

@@ -47,6 +47,7 @@ qt5_wrap_ui(procgui_SRC
 	src/ui/procgui.ui
 	src/ui/procinfodialog.ui
 )
+add_subdirectory(src/po)
 
 add_executable(procgui ${procgui_SRC})
 

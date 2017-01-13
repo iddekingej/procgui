@@ -285,7 +285,7 @@ void TProcGui::showDetails()
 		doubleClickedGrid(l_list.first());
 	} else{
 		QMessageBox l_box;
-		l_box.setText("Please select a process first");
+		l_box.setText(i18n("Please select a process first"));
 		l_box.setStandardButtons(QMessageBox::Ok);		
 		l_box.exec();
 	}
