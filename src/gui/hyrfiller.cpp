@@ -214,23 +214,31 @@ void THyrFiller::fillProcessList(bool p_asTree)
 	while(l_iter.hasNext()){
 		l_pi=l_iter.next();
 		
-		if(exeFilter.length()>0){
-			if(l_pi->getExe().indexOf(exeFilter)==-1) continue;
-		}
 		if((userFilter != UINT_MAX) && (l_pi->getOwnerId() != userFilter)) continue;
-		if(p_asTree){
-			if(userFilter ==UINT_MAX){
-				if(l_pi->getParent()!=nullptr)continue;
-			} else {
-				if(l_pi->getParent() != nullptr){
-					if(l_pi->getParent()->getOwnerId() == userFilter)continue;
+		if(exeFilter.length()>0){
+			if(l_pi->getExe().indexOf(exeFilter)!=-1){
+				if(p_asTree){
+					makeChildTreeRow(l_pi,l_cnt,nullptr);
+				} else {
+					makeRow(l_pi,l_cnt,nullptr);
 				}
+				l_cnt++;
 			}
-			makeChildTreeRow(l_pi,l_cnt,nullptr);
 		} else {
-			makeRow(l_pi,l_cnt,nullptr);
+			if(p_asTree){
+				if(userFilter ==UINT_MAX){
+					if(l_pi->getParent()!=nullptr)continue;
+				} else {
+					if(l_pi->getParent() != nullptr){
+						if(l_pi->getParent()->getOwnerId() == userFilter)continue;
+					}
+				}
+				makeChildTreeRow(l_pi,l_cnt,nullptr);
+			} else {
+				makeRow(l_pi,l_cnt,nullptr);
+			}
+			l_cnt++;		
 		}
-		l_cnt++;		
 	}
 	processList->setUpdatesEnabled(false);
 	setViewModel(processList,model);
