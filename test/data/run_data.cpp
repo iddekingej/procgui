@@ -1,5 +1,6 @@
 #include "run_data.h"
 #include "cgroup01.h"
+#include "procinfo01.h"
 
 class TRunDataRunner:public TRunner
 {
@@ -8,6 +9,7 @@ protected:
 	virtual void doRun()
 	{
 		runner(new TDataCGroup());
+		runner(new TTestDataProcInfo());
 	}
 	
 public:
