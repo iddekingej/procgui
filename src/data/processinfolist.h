@@ -9,7 +9,7 @@ class TProcessInfoList:public TLinkList<TProcessInfo>
 {
 private:
 	QHash<int,TProcessInfo *> pidIndex;
-	
+	QString basePath="/proc/";
 	void readProcess(QString p_path,TProcessInfo *p_info);
 	void reReadProcess(TProcessInfo *p_info);
 	void processStat(QString p_path,TProcessInfo *p_info);
@@ -18,7 +18,8 @@ private:
 	void toHyr();
 	
 public:	
-	
+	inline void setBasePath(const QString &p_basePath){ basePath=p_basePath;}
+	inline const QString &getBasePath(){ return basePath;}
 	void readInfo();
 	inline TProcessInfo *getByPid(uint p_pid){ return pidIndex.value(p_pid,nullptr);}
 	void diff(TProcessInfoList *p_list);

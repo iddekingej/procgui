@@ -20,7 +20,6 @@ public:
 	void errorv(const char* p_file, const char* p_method, const char* p_message, const char *p_result);
 	void errorv(const char* p_file, const char* p_method, const char* p_message, QString p_result);
 	void errorv(const char* p_file, const char* p_method, const char* p_message, long p_result);
-	bool fexpect(const char* p_file,const char *p_method,const char* p_message, long p_expected,long p_found);
 	bool fexpect(const char* p_file,const char *p_method,const char* p_message, bool p_expected,bool p_found);
 	bool fexpect(const char* p_file,const char *p_method,const char* p_message, int p_expected,int p_found);
 	bool fexpect(const char* p_file, const char* p_method, const char* p_message, QString p_expected, QString p_found);

@@ -6,13 +6,17 @@
 class TTestConfig
 {
 private:
-	std::string tempDir;
+	QString tempDir;
+	QString procTest;
+	QString dataTest;
 public:
-	inline std::string &getTempDir(){return tempDir;};
-	bool tmpMkDir(const std::string &p_path,std::string *p_fullPath=nullptr);
+	inline QString &getProcTest(){ return procTest;}
+	inline QString &getTempDir(){return tempDir;};
+	bool tmpMkDir(const QString &p_path,QString &p_fullPath);
 	bool initConfig();
-	QString getFilePath(const QString &p_path);
-
+	bool makeTestData();
+	QString getFilePath(const QString& p_path);
+	bool makeProc(const QString &p_name,const QString &p_source);
 	TTestConfig();
 	~TTestConfig();
 };

@@ -46,5 +46,6 @@ void TTestDataProcInfo::test02()
 	}
 	expect("ProcessInfo.cmdline","aa bb cc",l_item->getCmdLine());
 	expect("ProcessInfo.comm","test1",l_item->getComm());
-	expect("ProcessInfo.cwd",getConfig()->getFilePath("101/cwd"),l_item->getCWD()+"/");
+	expect("ProcessInfo.cwd+'/' ",getConfig()->getFilePath("101/cwd"),l_item->getCWD()+"/");
+	expect("ProcessInfo.pid",101,l_item->getPid());
 }

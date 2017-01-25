@@ -25,7 +25,6 @@ include(KDECompilerSettings)
 include(FeatureSummary)
 
 set(procgui_SRC
-  src/main.cpp
   src/base/config.cpp
   src/base/fieldlist.cpp
   src/base/os.cpp
@@ -52,7 +51,7 @@ qt5_wrap_ui(procgui_SRC
 )
 add_subdirectory(src/po)
 
-add_executable(procgui ${procgui_SRC})
+add_executable(procgui   src/main.cpp ${procgui_SRC})
 
 target_link_libraries(procgui ${procgui_LIBS})
 

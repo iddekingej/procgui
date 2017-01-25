@@ -15,11 +15,12 @@
  */
 void TProcessInfoList::readInfo()
 {
-	QDirIterator l_iter(QStringLiteral("/proc"));
+	QDirIterator l_iter(basePath);
 	pid_t l_id;
 	bool l_ok;
 	TProcessInfo *l_info;
 	while(l_iter.hasNext()){
+		l_iter.next();
 		l_id=l_iter.fileName().toLong(&l_ok);
 		if(l_ok){
 			l_info=new TProcessInfo();
@@ -30,7 +31,6 @@ void TProcessInfoList::readInfo()
 			readProcess(l_iter.filePath(),l_info);
 
 		}		
-		l_iter.next();
 	}
 	toHyr();
 	
@@ -43,7 +43,7 @@ void TProcessInfoList::readInfo()
  */
 TProcessInfo * TProcessInfoList::readInfoFromPid(pid_t p_pid)
 {
-	QString l_path=QStringLiteral("/proc/")+QString::number(p_pid);
+	QString l_path=basePath+QString::number(p_pid);
 	TProcessInfo *l_info=new TProcessInfo();
 	l_info->setPid(p_pid);
 	l_info->setOwnerId(QFileInfo(l_path).ownerId());
@@ -86,7 +86,7 @@ void TProcessInfoList::readProcess(QString p_path, TProcessInfo *p_info)
 
 void TProcessInfoList::reReadProcess(TProcessInfo* p_info)
 {
-	readProcess(QString("/proc/")+QString::number(p_info->getPid()),p_info);
+	readProcess(basePath+QString::number(p_info->getPid()),p_info);
 }
 
 

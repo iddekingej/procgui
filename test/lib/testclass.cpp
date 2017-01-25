@@ -29,16 +29,6 @@ void TTestClass::errorv(const char* p_file, const char* p_method, const char* p_
 }
 
 
-bool TTestClass::fexpect(const char* p_file, const char* p_method, const char* p_message, long p_expected, long p_found)
-{
-	if(p_expected != p_found){
-		std::cout << p_file << ":" <<p_method <<":" << p_message <<": expected " << p_expected << " returned "<<p_found <<std::endl;
-		failed=true;
-		return true;
-	} 
-	return false;
-}
-
 
 bool TTestClass::fexpect(const char* p_file, const char* p_method, const char* p_message, bool p_expected, bool p_found)
 {
