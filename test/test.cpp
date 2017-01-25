@@ -18,5 +18,6 @@ int main( int argc,char **argv) {
 		return 255;
 	}
 	delete l_config;
+	std::cout <<"Test all ok!"<<std::endl;
 	return 0;
 }

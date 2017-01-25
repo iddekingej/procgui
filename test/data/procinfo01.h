@@ -9,6 +9,7 @@ protected:
 	virtual void doRun() override;		
 	void test01();
 	void test02();
+	void test03();
 	TProcessInfoList *info=nullptr;
 public:
 	TTestDataProcInfo();

@@ -64,11 +64,9 @@ bool TTestConfig::makeTestData()
 	QString l_procTest;
 	QString l_dataTest;
 	if(!tmpMkDir("proc",l_procTest)){
-		std::cout  <<"Failed" << std::endl;
 		return false;
 	}
 	procTest=l_procTest;
-	std::cout << qstr(procTest) <<std::endl;
 	makeProc("101","101");
 	makeProc("102","102");
 	return true;
