@@ -44,6 +44,10 @@ void TTestDataProcInfo::test02()
 		fail("First item is null");
 		return;
 	}
+}
+
+void TTestDataProcInfo::test03(){
+	TProcessInfo *l_item=info->getByPid(101);
 	expect("ProcessInfo.cmdline","aa bb cc",l_item->getCmdLine());
 	expect("ProcessInfo.comm","test1",l_item->getComm());
 	expect("ProcessInfo.cwd+'/' ",getConfig()->getFilePath("101/cwd"),l_item->getCWD()+"/");
@@ -51,19 +55,9 @@ void TTestDataProcInfo::test02()
 }
 
 
-void TTestDataProcInfo::test03()
+void TTestDataProcInfo::test04()
 {
-	TLinkListIterator<TProcessInfo> l_iter(info);
-	l_iter.next();
-	if(!l_iter.hasNext()){
-		fail("TlinkListIterator.hasNext returns false for the secondtime, expect item");
-		return;
-	}
-	TProcessInfo *l_item=l_iter.next();
-		if(l_item==nullptr){
-		fail("Second item is null");
-		return;
-	}
+	TProcessInfo *l_item=info->getByPid(102);
 	expect("ProcessInfo.cmdline","qq rr ss?xxc",l_item->getCmdLine());
 	expect("ProcessInfo.comm","test2",l_item->getComm());
 	expect("ProcessInfo.cwd+'/' ",getConfig()->getFilePath("102/cwd"),l_item->getCWD()+"/");
