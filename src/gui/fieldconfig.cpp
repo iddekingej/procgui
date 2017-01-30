@@ -193,7 +193,7 @@ void TFieldsConfig::fillAvailableList()
 {
 	QStandardItem *l_item;
 	for(int l_cnt=0;l_cnt<g_numFields;l_cnt++){
-		l_item=new QStandardItem(i18n(g_fields[l_cnt]));
+		l_item=new QStandardItem(i18n(g_fields[l_cnt].title));
 		l_item->setData(l_cnt);
 		l_item->setEditable(false);
 		modelAvailable->setItem(l_cnt,0,l_item);
@@ -212,7 +212,7 @@ void TFieldsConfig::fillSelectedList()
 	for(int l_cnt=0;l_cnt<l_enabledFields->count();l_cnt++){
 		int l_selectedId=(*l_enabledFields)[l_cnt];
 		if(l_selectedId<g_numFields){
-			l_item=new QStandardItem(i18n(g_fields[l_selectedId]));
+			l_item=new QStandardItem(i18n(g_fields[l_selectedId].title));
 			l_item->setData(l_selectedId);
 			l_item->setEditable(false);
 			modelSelected->setItem(l_cnt,0,l_item);

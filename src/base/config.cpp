@@ -8,6 +8,8 @@ TConfig g_config;
 
 TConfig::TConfig()
 {
+	fields=new QVector<int>();
+
 }
 
 TConfig::~TConfig()
@@ -23,7 +25,7 @@ TConfig::~TConfig()
 void TConfig::setup()
 {
 	config=KSharedConfig::openConfig();
-	configGui=config->group("gui");
+	configGui=config->group("gui");	
 	KConfigGroup  l_mainGroup=config->group("main");
 	QString l_check=l_mainGroup.readEntry("check");
 	if(l_check.length()==0){
@@ -34,8 +36,10 @@ void TConfig::setup()
 		setFields(l_enableDeviceFields);
 		l_mainGroup.writeEntry("check","1");
 		config->sync();
+	} else {
+		QVariantList l_list=configGui.readEntry("fields",QVariantList());
+		setFields(l_list);		
 	}
-
 }
 
 /**
@@ -48,6 +52,18 @@ void TConfig::sync()
 }
 
 
+void TConfig::setFieldsByVariant(QVariantList &p_list)
+{
+	fields->resize(p_list.size());
+	QListIterator<QVariant> l_iter(p_list);
+	int l_cnt=0;
+	while(l_iter.hasNext()){
+		(*fields)[l_cnt]=l_iter.next().toInt();
+		l_cnt++;
+	}	
+}
+
+
 /**
  * Returns fields (and order of field) which are displayed in the process list.
  * see fieldlist.h
@@ -56,16 +72,6 @@ void TConfig::sync()
  */
 QVector<int>* TConfig::getFields()
 {
-	if(fields==nullptr){
-		QVariantList l_list=configGui.readEntry("fields",QVariantList());
-		fields=new QVector<int>(l_list.size());
-		QListIterator<QVariant> l_iter(l_list);
-		int l_cnt=0;
-		while(l_iter.hasNext()){
-			(*fields)[l_cnt]=l_iter.next().toInt();
-			l_cnt++;
-		}
-	}
 	return fields;
 }
 
@@ -74,8 +80,8 @@ QVector<int>* TConfig::getFields()
  */
 void TConfig::setFields(QVariantList p_list)
 {
-	fields=nullptr;
 	configGui.writeEntry("fields",p_list);
+	setFieldsByVariant(p_list);
 }
 
 /**

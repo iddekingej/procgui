@@ -18,7 +18,7 @@ private:
 	KSharedConfig::Ptr config;
 	KConfigGroup configGui;
 	QVector<int> *fields;
-	
+	void setFieldsByVariant(QVariantList &p_list);
 public:
 	TConfig();
 	~TConfig();

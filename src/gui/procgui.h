@@ -9,6 +9,7 @@
 #include <QModelIndexList>
 #include <QStandardItemModel>
 #include "src/data/processinfolist.h"
+#include "sortproxy.h"
 #include <QTableView>
 class TProcGui : public QMainWindow
 {
@@ -27,6 +28,8 @@ private:
 	QTimer refresh;
 	TProcessInfoList *processInfo=nullptr;
 	QTableView *userSelection;
+	QStandardItemModel *model=nullptr;
+	TSortProxy *sortProxy=nullptr;
 	void fillProcessList(TProcessInfoList *p_processList);
 	void fillUserFilter(TProcessInfoList *p_processList);
 public:
