@@ -11,6 +11,12 @@
 #include "src/data/processinfolist.h"
 #include "sortproxy.h"
 #include <QTableView>
+
+/**
+ * Class for main window gui 
+ */
+
+
 class TProcGui : public QMainWindow
 {
     Q_OBJECT
@@ -24,12 +30,26 @@ private slots:
 	void showDetails();
 	void checkDisplayAsTree();
 private:
+	/**
+	 * Gui layout
+	 */ 
 	Ui::procgui *ui;    
+	
+	/**
+	 * Timer used for refreshing the  proces list
+	 */
+	
 	QTimer refresh;
+	
+	/**
+	 * Informaton about processes read from /proc
+	 */
 	TProcessInfoList *processInfo=nullptr;
+	
+	/**
+	 * This grid isattach to the user combobox for displaying users
+	 */
 	QTableView *userSelection;
-	QStandardItemModel *model=nullptr;
-	TSortProxy *sortProxy=nullptr;
 	void fillProcessList(TProcessInfoList *p_processList);
 	void fillUserFilter(TProcessInfoList *p_processList);
 public:
