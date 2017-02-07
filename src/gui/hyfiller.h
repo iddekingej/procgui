@@ -5,15 +5,17 @@
 #include <QStandardItem>
 #include <QModelIndex>
 #include <QModelIndexList>
+#include <QList>
 #include <QTreeView>
 #include "src/data/processinfo.h"
 #include "src/data/processinfolist.h"
+#include "sortproxy.h"
 class THyrFiller
 {
 private:
 	QStandardItemModel *model;
-	QModelIndexList     newSelected;
-	QModelIndexList     newExpanded;
+	QList<QStandardItem *> newSelected;
+	QList<QStandardItem *> newExpanded;
 	QVector<int>       *fields;
 	QTreeView          *processList;
 	QString             exeFilter;
@@ -23,11 +25,13 @@ private:
 	QSet<int>           expanded;
 	QStandardItem* makeRow(TProcessInfo* p_procInfo,int p_row, QStandardItem* p_item);
 	void makeChildTreeRow(TProcessInfo *p_procInfo,int p_row,QStandardItem* p_item);
-	void selectProcesses(QModelIndexList& p_list);
+	void selectProcessChilderen(QModelIndex &p_item);
+	void selectProcesses(TSortProxy *p_proxy);	
 	void getSelected();
-	void getExpandedChilderen(QStandardItem *l_item);
-	void getExpanded();
-	void restoreExpanded();
+	void getExpandedChilderen(QModelIndex &l_item);
+	void getExpanded();	
+	void restoreExpand(TSortProxy *p_proxy);
+	void restoreExpandChilderen(QModelIndex &p_item);
 
 
 

@@ -3,7 +3,8 @@
 #include "src/base/fieldlist.h"
 #include <iostream>
 #include "src/base/utils.h"
-#include <QSortFilterProxyModel>
+#include "sortproxy.h"
+
 /**
  *  This class fills the process list as a hierarchical tree
  *  or a flat list.  (Depends on parameter of fillProcessList)
@@ -49,9 +50,7 @@ QStandardItem* THyrFiller::makeRow(TProcessInfo* p_procInfo,int p_row,  QStandar
 				model->setItem(p_row,l_col,l_item);
 			}
 			if(l_col==0){
-				l_item->setData(p_procInfo->getPid(),Qt::UserRole+1);
-				if(selected.contains(p_procInfo->getPid()))newSelected << l_item->index();
-				if(expanded.contains(p_procInfo->getPid()))newExpanded << l_item->index();
+				l_item->setData(p_procInfo->getPid(),Qt::UserRole+1);			
 				l_return=l_item;
 			}
 			l_col++;					
@@ -82,17 +81,52 @@ void THyrFiller::makeChildTreeRow(TProcessInfo *p_procInfo,int p_row,QStandardIt
 	}
 }
 
+void THyrFiller::restoreExpandChilderen(QModelIndex &p_item)
+{
+	int l_pid=p_item.data(Qt::UserRole+1).toInt();
+	if(expanded.contains(l_pid)){		
+		processList->expand(p_item);
+	}
+	int l_row=0;
+	QModelIndex l_childIndex;
+	while(true){
+		l_childIndex=p_item.child(l_row,0);
+		if(!l_childIndex.isValid()) break;
+		restoreExpandChilderen(l_childIndex);
+		l_row++;
+	}
+}
+
+
 /**
  *  Before a fresh a list is filled with tree nodes that are expanded after the expand state is restorred
  * 
  */
-void THyrFiller::restoreExpanded()
+void THyrFiller::restoreExpand(TSortProxy *p_proxy)
 {
-	QListIterator<QModelIndex> l_expandIter(newExpanded);
-	QModelIndex l_index;	
-	while(l_expandIter.hasNext()){
-		l_index=l_expandIter.next();		
-		processList->expand(l_index);
+	QModelIndex l_index;
+	for(int l_row=0;l_row<p_proxy->rowCount();l_row++){
+		l_index=p_proxy->index(l_row,0,QModelIndex());	
+		restoreExpandChilderen(l_index);
+	}
+	
+}
+
+
+void THyrFiller::selectProcessChilderen(QModelIndex& p_item)
+{	
+	int l_pid=p_item.data(Qt::UserRole+1).toInt();
+	if(selected.contains(l_pid)){
+		QItemSelectionModel *l_selectionModel=processList->selectionModel();
+		l_selectionModel->select(p_item,QItemSelectionModel::Rows|QItemSelectionModel::Select);
+	}
+	int l_row=0;
+	QModelIndex l_childIndex;
+	while(true){
+		l_childIndex=p_item.child(l_row,0);
+		if(!l_childIndex.isValid()) break;
+		selectProcessChilderen(l_childIndex);
+		l_row++;
 	}
 }
 
@@ -104,15 +138,12 @@ void THyrFiller::restoreExpanded()
  *  \param p_list -  A list of QModelIndex   to select
  */
 
-void THyrFiller::selectProcesses(QModelIndexList& p_list)
+void THyrFiller::selectProcesses(TSortProxy *p_proxy)
 {
-	QListIterator<QModelIndex> l_selectIter(p_list);
-	QModelIndex  l_index;
-	QItemSelectionModel *l_selectionModel=processList->selectionModel();
-	
-	while(l_selectIter.hasNext()){
-		l_index=l_selectIter.next();
-		l_selectionModel->select(l_index,QItemSelectionModel::Rows|QItemSelectionModel::Select);
+	QModelIndex l_index;
+	for(int l_row=0;l_row<p_proxy->rowCount();l_row++){
+		l_index=p_proxy->index(l_row,0,QModelIndex());		
+		selectProcessChilderen(l_index);
 	}	
 }
 
@@ -147,16 +178,16 @@ void THyrFiller::getSelected()
  * 
  *   \param p_item  Check which children from p_item are expanded.
  */
-void THyrFiller::getExpandedChilderen(QStandardItem* p_item)
+void THyrFiller::getExpandedChilderen(QModelIndex &p_index)
 {
-	QStandardItem *l_item;
 	QModelIndex l_index;
-	for(int l_cnt=0;l_cnt<p_item->rowCount();l_cnt++){
-		l_item=p_item->child(l_cnt,0);
-		if(processList->isExpanded(l_item->index())){
-			expanded += l_item->data(Qt::UserRole + 1).toInt();			
-		}		
-		getExpandedChilderen(l_item);
+	if(processList->isExpanded(p_index)){					
+		expanded += p_index.data(Qt::UserRole + 1).toInt();			
+	}
+	int l_row=0;
+	while(l_row){
+		l_index=p_index.child(l_row,0);	
+		getExpandedChilderen(l_index);		
 	}
 }
 
@@ -168,19 +199,13 @@ void THyrFiller::getExpandedChilderen(QStandardItem* p_item)
 
 void THyrFiller::getExpanded()
 {
-	QStandardItemModel *l_model=dynamic_cast<QStandardItemModel *>(processList->model());
-	QStandardItem *l_item;
+	TSortProxy *l_model=dynamic_cast<TSortProxy *>(processList->model());	
 	QModelIndex l_index;
 
 	if(l_model !=nullptr){		
 		for(int l_cnt=0;l_cnt<l_model->rowCount();l_cnt++){
-			l_item=l_model->item(l_cnt,0);			
-			if(l_item != nullptr){
-				if(processList->isExpanded(l_item->index())){					
-					expanded += l_item->data(Qt::UserRole + 1).toInt();			
-				}
-				getExpandedChilderen(l_item);
-			}
+			l_index=l_model->index(l_cnt,0,QModelIndex());			
+			getExpandedChilderen(l_index);
 		}
 	}
 }
@@ -242,20 +267,18 @@ void THyrFiller::fillProcessList(bool p_asTree)
 	}
 	processList->setUpdatesEnabled(false);
 	
-	int l_sortColumn;
-	Qt::SortOrder l_sortOrder;		
+		
 	QAbstractItemModel *l_originalModel=processList->model();
-	QSortFilterProxyModel *l_proxy=dynamic_cast<QSortFilterProxyModel *>(l_originalModel);
+	TSortProxy *l_proxy=dynamic_cast<TSortProxy *>(l_originalModel);
 	
 	if(l_proxy != nullptr){	
-		l_sortOrder=l_proxy->sortOrder();
-		l_sortColumn=l_proxy->sortColumn();
 		l_proxy->setSourceModel(model);
-		
+		selectProcesses(l_proxy);	
+		restoreExpand(l_proxy);
 	} else {
 		setViewModel(processList,model);	
 	}
-	restoreExpanded();
-	selectProcesses(newSelected);
+	
+	
 	processList->setUpdatesEnabled(true);
 }
