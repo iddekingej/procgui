@@ -185,9 +185,11 @@ void THyrFiller::getExpandedChilderen(QModelIndex &p_index)
 		expanded += p_index.data(Qt::UserRole + 1).toInt();			
 	}
 	int l_row=0;
-	while(l_row){
+	while(true){
 		l_index=p_index.child(l_row,0);	
+		if(!l_index.isValid()) break;
 		getExpandedChilderen(l_index);		
+		l_row++;
 	}
 }
 
