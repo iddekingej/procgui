@@ -7,28 +7,32 @@
  */
 
 
-const  char *g_fields[]={
-	I18N_NOOP("Pid")
-,	I18N_NOOP("Parent pid")
-,	I18N_NOOP("Executable")
-,	I18N_NOOP("Command")
-,	I18N_NOOP("State")
-,	I18N_NOOP("Owner id")
-,	I18N_NOOP("Owner username")
-,	I18N_NOOP("Current working directory")
-,	I18N_NOOP("Command line")
-,	I18N_NOOP("Start time")
-,	I18N_NOOP("Process group ID")
-,	I18N_NOOP("Session ID")
-,	I18N_NOOP("Virtual mem. size")
-,	I18N_NOOP("Res. mem. size")
-,	I18N_NOOP("User time")
-,	I18N_NOOP("System time")
-,	I18N_NOOP("Diff. user time")
-,	I18N_NOOP("Diff. system time")
-,	I18N_NOOP("Total time")
-,	I18N_NOOP("Diff. total time")
+
+
+const  TFieldInfo g_fields[]={
+	{I18N_NOOP("Pid"),'N'}
+,	{I18N_NOOP("Parent pid"),'N'}
+,	{I18N_NOOP("Executable"),'S'}
+,	{I18N_NOOP("Command"),'S'}
+,	{I18N_NOOP("State"),'S'}
+,	{I18N_NOOP("Owner id"),'N'}
+,	{I18N_NOOP("Owner username"),'S'}
+,	{I18N_NOOP("Current working directory"),'S'}
+,	{I18N_NOOP("Command line"),'S'}
+,	{I18N_NOOP("Start time"),'S'}
+,	{I18N_NOOP("Process group ID"),'N'}
+,	{I18N_NOOP("Session ID"),'N'}
+,	{I18N_NOOP("Virtual mem. size"),'N'}
+,	{I18N_NOOP("Res. mem. size"),'N'}
+,	{I18N_NOOP("User time"),'S'}
+,	{I18N_NOOP("System time"),'S'}
+,	{I18N_NOOP("Diff. user time"),'S'}
+,	{I18N_NOOP("Diff. system time"),'N'}
+,	{I18N_NOOP("Total time"),'S'}
+,	{I18N_NOOP("Diff. total time"),'N'}
 };
-const  int g_numFields=sizeof(g_fields)/sizeof(char*);
+
+
+const  int g_numFields=sizeof(g_fields)/sizeof(TFieldInfo);
 
 

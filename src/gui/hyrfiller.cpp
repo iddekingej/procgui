@@ -3,7 +3,7 @@
 #include "src/base/fieldlist.h"
 #include <iostream>
 #include "src/base/utils.h"
-
+#include <QSortFilterProxyModel>
 /**
  *  This class fills the process list as a hierarchical tree
  *  or a flat list.  (Depends on parameter of fillProcessList)
@@ -206,7 +206,7 @@ void THyrFiller::fillProcessList(bool p_asTree)
 
 	while(l_hi.hasNext()){
 		l_fieldId=l_hi.next();
-		model->setHorizontalHeaderItem(l_col,new QStandardItem(g_fields[l_fieldId]));
+		model->setHorizontalHeaderItem(l_col,new QStandardItem(g_fields[l_fieldId].title));
 		
 		l_col++;
 	}
@@ -241,7 +241,20 @@ void THyrFiller::fillProcessList(bool p_asTree)
 		}
 	}
 	processList->setUpdatesEnabled(false);
-	setViewModel(processList,model);
+	
+	int l_sortColumn;
+	Qt::SortOrder l_sortOrder;		
+	QAbstractItemModel *l_originalModel=processList->model();
+	QSortFilterProxyModel *l_proxy=dynamic_cast<QSortFilterProxyModel *>(l_originalModel);
+	
+	if(l_proxy != nullptr){	
+		l_sortOrder=l_proxy->sortOrder();
+		l_sortColumn=l_proxy->sortColumn();
+		l_proxy->setSourceModel(model);
+		
+	} else {
+		setViewModel(processList,model);	
+	}
 	restoreExpanded();
 	selectProcesses(newSelected);
 	processList->setUpdatesEnabled(true);

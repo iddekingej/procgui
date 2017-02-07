@@ -27,6 +27,7 @@
 #include <QTableView>
 #include <klocalizedstring.h>
 #include <QAbstractItemModel>
+#include "sortproxy.h"
 /**
  *  Main windows. This windows displays the processList.
  *  
@@ -70,8 +71,8 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	if((l_width>0) && (l_height>0)){
 		resize(l_width,l_height);
 	}
-	refresh.setInterval(1024);
-	refresh.start();
+	TSortProxy *sortProxy=new TSortProxy(g_config.getFields(),this);
+	ui->processList->setModel(sortProxy);
 	connect(ui->action_Exit,SIGNAL(triggered()),qApp,SLOT(quit()));
 	connect(ui->actionFields,SIGNAL(triggered()),this,SLOT(fieldsDialog()));
 	connect(&refresh,SIGNAL(timeout()),this,SLOT(refreshTimeout()));
@@ -88,6 +89,8 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	userSelection->setSelectionMode(QAbstractItemView::SingleSelection);
 	userSelection->verticalHeader()->setVisible(false);
 	refreshTimeout();
+	refresh.setInterval(1024);
+	refresh.start();
 }
 
 TProcGui::~TProcGui()

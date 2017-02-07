@@ -141,6 +141,13 @@ void TProcessInfo::getOpenFiles(QHash<int, QString>& p_map)
 	}
 }
 
+
+/**
+ * Read cgroup information information from proces.
+ * CGroup information is stores in /proc/#pid#/cgroup 
+ * This is a text line, each line has the following fomrat
+ * #hierarchy id#:#controlling subsystem:#cgroup#
+ */
 void TProcessInfo::getCGroups(TLinkList<TCGroupInfo> &p_cgroupInfo)
 {
 	QFile l_file(QStringLiteral("/proc/")+QString::number(pid)+QStringLiteral("/cgroup"));
@@ -150,7 +157,7 @@ void TProcessInfo::getCGroups(TLinkList<TCGroupInfo> &p_cgroupInfo)
 	}
 	QTextStream l_stream(&l_file);
 	QString l_line;
-	int l_hierachyId;
+	int l_hierarchyId;
 	bool l_ok;
 	while(true){
 		l_line=l_stream.readLine();
@@ -158,9 +165,9 @@ void TProcessInfo::getCGroups(TLinkList<TCGroupInfo> &p_cgroupInfo)
 		QStringList l_ci=l_line.split(":");
 		
 		if(l_ci.size() == 3){
-			l_hierachyId=l_ci[0].toInt(&l_ok);
+			l_hierarchyId=l_ci[0].toInt(&l_ok);
 			if(l_ok){
-				p_cgroupInfo.append(new TCGroupInfo(l_hierachyId,l_ci[1],l_ci[2]));
+				p_cgroupInfo.append(new TCGroupInfo(l_hierarchyId,l_ci[1],l_ci[2]));
 			}
 		}
 	}

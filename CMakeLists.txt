@@ -35,6 +35,7 @@ set(procgui_SRC
   src/gui/hyrfiller.cpp
   src/gui/procgui.cpp  
   src/gui/procinfodialog.cpp
+  src/gui/sortproxy.cpp
   
 )
 set(procgui_LIBS
