@@ -23,4 +23,5 @@ void TDataCGroup::test01()
 	expect("Hyrarchie ID",101,l_info->getHierarchyId());
 	expect("cgroup","bla2",l_info->getCGroup());
 	expect("bla2","bla1",l_info->getSubsystems());
+	delete l_info;
 }

@@ -17,7 +17,7 @@ class TConfig
 private:
 	KSharedConfig::Ptr config;
 	KConfigGroup configGui;
-	QVector<int> *fields;
+	QVector<int> *fields=nullptr;
 	
 public:
 	TConfig();
