@@ -47,7 +47,9 @@ private:
 	TProcessInfoList *processInfo=nullptr;
 	
 	/**
-	 * This grid isattach to the user combobox for displaying users
+	 * This grid is attached to the user selection combobox.
+	 * It is used for displaying user information in the drop down list.
+	 * 
 	 */
 	QTableView *userSelection;
 	void fillProcessList(TProcessInfoList *p_processList);
