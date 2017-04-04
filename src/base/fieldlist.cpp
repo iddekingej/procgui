@@ -1,13 +1,10 @@
 #include "fieldlist.h"
 #include <klocalizedstring.h>
 /**
- *  List of fields showen in the proceslist. 
+ *  List of fields displayed in the proceslist. 
  *  The selected fields are save as indexes of this array
  *  The text is used as the column header. (please don't change the order)
  */
-
-
-
 
 const  TFieldInfo g_fields[]={
 	{I18N_NOOP("Pid"),'N'}

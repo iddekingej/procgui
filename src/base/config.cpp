@@ -51,7 +51,11 @@ void TConfig::sync()
 	config->sync();
 }
 
-
+/**
+ * Save the configuration of fields displayed in the main window
+ * 
+ * @param p_list List of visible columns (=index in g_fields, see fieldlist.cpp)
+ */
 void TConfig::setFieldsByVariant(QVariantList &p_list)
 {
 	fields->resize(p_list.size());
@@ -120,9 +124,9 @@ int TConfig::getMainWindowWidth()
 }
 
 /** 
- *   The proces list can be displayed as a tree or a flat list. 
+ *   The proces list can be displayed as a tree or as a flat list. 
  *   The checkbox for this option is on the main window. When changing this
- *   option it's saved in the setup file.
+ *   option,it is directly written in the configuration file
  * 
  *   \param p_flag - True display processes as a tree, False as a flat list.
  */
@@ -135,6 +139,7 @@ void TConfig::setDisplayAsTree(bool p_flag)
 
 /** 
  *   The proces list can be displayed as a tree or a flat list.  
+ *   @see TConfig::setDisplayAsTree(bool)
  * 
  *   \param p_flag - True display processes as a tree, False as a flat list.
  */

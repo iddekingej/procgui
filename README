@@ -1,4 +1,4 @@
-ProcGui - A linux process/information viewer.
+ProcGui - A linux process information viewer.
 =============================================
 
 Building
@@ -7,8 +7,8 @@ Building
 Required:
 
 compiler/make
-	*c++ (x11)
-	*cmake
+	c++ (x++11)
+	cmake
 libs(+devel):
 	libQt5Widgets.so.5
 	libKF5CoreAddons.so.5
@@ -17,7 +17,6 @@ libs(+devel):
 	libQt5Gui.so.5
 	libQt5Core.so.5
 	
-
 building:
 	goto project root
 	mkdir build
@@ -25,5 +24,5 @@ building:
 	cmake ..
 	make
 	
-You can install the program by make install or you can run the program directly from the "build" directory.  The program can be run as a 
+Procgui can be installed by running  "make install"  or the program can be directly run from the build folder.  Procgui can be run as a 
 normal user or as a root. 

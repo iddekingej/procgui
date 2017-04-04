@@ -36,7 +36,7 @@ set(procgui_SRC
   src/gui/procgui.cpp  
   src/gui/procinfodialog.cpp
   src/gui/sortproxy.cpp
-  
+  src/gui/about.cpp
 )
 set(procgui_LIBS
     Qt5::Widgets
@@ -49,6 +49,7 @@ qt5_wrap_ui(procgui_SRC
 	src/ui/fields.ui
 	src/ui/procgui.ui
 	src/ui/procinfodialog.ui
+	src/ui/about.ui
 )
 add_subdirectory(src/po)
 

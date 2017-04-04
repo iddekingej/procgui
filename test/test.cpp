@@ -2,8 +2,10 @@
 #include "data/run_data.h"
 #include "lib/testconfig.h"
 #include <iostream>
+#include "src/base/utils.h"
 
-int main( int argc,char **argv) {
+int main( int argc PAR_UNUSED,char **argv PAR_UNUSED)
+{
 	TTestConfig *l_config=new TTestConfig();
 	if(!l_config->initConfig()){
 		std::cout << "init config failed" <<std::endl;

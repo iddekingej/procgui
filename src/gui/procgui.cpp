@@ -28,6 +28,8 @@
 #include <klocalizedstring.h>
 #include <QAbstractItemModel>
 #include "sortproxy.h"
+#include "about.h"
+#include "src/base/utils.h"
 /**
  *  Main windows. This windows displays the processList.
  *  
@@ -75,6 +77,7 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	ui->processList->setModel(sortProxy);
 	connect(ui->action_Exit,SIGNAL(triggered()),qApp,SLOT(quit()));
 	connect(ui->actionFields,SIGNAL(triggered()),this,SLOT(fieldsDialog()));
+	connect(ui->actionAbout,SIGNAL(triggered()), this,SLOT(about()));
 	connect(&refresh,SIGNAL(timeout()),this,SLOT(refreshTimeout()));
 	connect(ui->userFilter,SIGNAL(currentIndexChanged(int)),this,SLOT(userFilterChange(int)));
 	connect(ui->processList,SIGNAL(doubleClicked(const QModelIndex &)),this,SLOT(doubleClickedGrid(const QModelIndex &)));
@@ -98,6 +101,17 @@ TProcGui::~TProcGui()
     delete ui;
     if(processInfo!=nullptr)delete processInfo;
 }
+
+/**
+ * Display about GUI
+ */
+void TProcGui::about()
+{
+	TAbout l_about;
+	l_about.exec();
+}
+
+
 
 
 /**
@@ -253,7 +267,7 @@ void TProcGui::refreshTimeout()
  * After changing the selected user, the event is called. In this function the list is refreshed 
  */
 
-void TProcGui::userFilterChange(int p_index)
+void TProcGui::userFilterChange(int p_index PAR_UNUSED)
 {
 	fillProcessList(processInfo);
 }
