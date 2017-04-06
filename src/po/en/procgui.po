@@ -22,7 +22,7 @@ msgstr ""
 
 #: src/base/fieldlist.cpp:16
 msgid "Owner id"
-msgstr ""
+msgstr "Owner id"
 
 #: src/base/fieldlist.cpp:17
 msgid "Owner username"
