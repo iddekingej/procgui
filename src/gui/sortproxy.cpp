@@ -34,9 +34,9 @@ bool TSortProxy::lessThan(const QModelIndex& p_left, const QModelIndex &p_right)
 	char l_type=getSortType(p_left.column());
 	bool l_ok;
 	if(l_type=='N'){
-		int l_left=p_left.data(Qt::DisplayRole).toInt(&l_ok);
+		long long l_left=p_left.data(Qt::DisplayRole).toLongLong(&l_ok);
 		if(l_ok){
-			int l_right=p_right.data(Qt::DisplayRole).toInt(&l_ok);
+			long long l_right=p_right.data(Qt::DisplayRole).toLongLong(&l_ok);
 			if(l_ok){
 				return l_left<l_right;
 			}
