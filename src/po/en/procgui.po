@@ -1,94 +1,94 @@
-#: src/base/fieldlist.cpp:11 src/gui/procinfodialog.cpp:74
+#: src/base/fieldlist.cpp:10 src/gui/procinfodialog.cpp:74
 #: src/gui/procinfodialog.cpp:117
 msgid "Pid"
 msgstr ""
 
-#: src/base/fieldlist.cpp:12
+#: src/base/fieldlist.cpp:11
 msgid "Parent pid"
 msgstr ""
 
-#: src/base/fieldlist.cpp:13
+#: src/base/fieldlist.cpp:12
 msgid "Executable"
 msgstr ""
 
-#: src/base/fieldlist.cpp:14 src/gui/procinfodialog.cpp:75
+#: src/base/fieldlist.cpp:13 src/gui/procinfodialog.cpp:75
 #: src/gui/procinfodialog.cpp:118
 msgid "Command"
 msgstr ""
 
-#: src/base/fieldlist.cpp:15
+#: src/base/fieldlist.cpp:14
 msgid "State"
 msgstr ""
 
-#: src/base/fieldlist.cpp:16
+#: src/base/fieldlist.cpp:15
 msgid "Owner id"
 msgstr "Owner id"
 
-#: src/base/fieldlist.cpp:17
-msgid "Owner username"
+#: src/base/fieldlist.cpp:16
+msgid "Owner user name"
 msgstr ""
 
-#: src/base/fieldlist.cpp:18
+#: src/base/fieldlist.cpp:17
 msgid "Current working directory"
 msgstr ""
 
-#: src/base/fieldlist.cpp:19 src/gui/procinfodialog.cpp:76
+#: src/base/fieldlist.cpp:18 src/gui/procinfodialog.cpp:76
 msgid "Command line"
 msgstr ""
 
-#: src/base/fieldlist.cpp:20
+#: src/base/fieldlist.cpp:19
 msgid "Start time"
 msgstr ""
 
-#: src/base/fieldlist.cpp:21
+#: src/base/fieldlist.cpp:20
 msgid "Process group ID"
 msgstr ""
 
-#: src/base/fieldlist.cpp:22
+#: src/base/fieldlist.cpp:21
 msgid "Session ID"
 msgstr ""
 
-#: src/base/fieldlist.cpp:23
+#: src/base/fieldlist.cpp:22
 msgid "Virtual mem. size"
 msgstr ""
 
-#: src/base/fieldlist.cpp:24
+#: src/base/fieldlist.cpp:23
 msgid "Res. mem. size"
 msgstr ""
 
-#: src/base/fieldlist.cpp:25
+#: src/base/fieldlist.cpp:24
 msgid "User time"
 msgstr ""
 
-#: src/base/fieldlist.cpp:26
+#: src/base/fieldlist.cpp:25
 msgid "System time"
 msgstr ""
 
-#: src/base/fieldlist.cpp:27
+#: src/base/fieldlist.cpp:26
 msgid "Diff. user time"
 msgstr ""
 
-#: src/base/fieldlist.cpp:28
+#: src/base/fieldlist.cpp:27
 msgid "Diff. system time"
 msgstr ""
 
-#: src/base/fieldlist.cpp:29
+#: src/base/fieldlist.cpp:28
 msgid "Total time"
 msgstr ""
 
-#: src/base/fieldlist.cpp:30
+#: src/base/fieldlist.cpp:29
 msgid "Diff. total time"
 msgstr ""
 
-#: src/gui/procgui.cpp:118
+#: src/gui/procgui.cpp:135
 msgid "User"
 msgstr ""
 
-#: src/gui/procgui.cpp:119
-msgid "Proces owner?"
+#: src/gui/procgui.cpp:136
+msgid "Process owner?"
 msgstr ""
 
-#: src/gui/procgui.cpp:288
+#: src/gui/procgui.cpp:305
 msgid "Please select a process first"
 msgstr ""
 

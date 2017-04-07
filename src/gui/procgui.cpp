@@ -133,7 +133,7 @@ void TProcGui::fillUserFilter(TProcessInfoList *p_processList)
 	uint l_selectedUid;
 	QStandardItemModel *l_model=new QStandardItemModel(0,2,this);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem(i18n("User")));
-	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Proces owner?")));
+	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Process owner?")));
 	
 	/**
 	 * If nothing is selected, use current user as selection

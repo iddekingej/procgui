@@ -13,7 +13,7 @@ const  TFieldInfo g_fields[]={
 ,	{I18N_NOOP("Command"),'S'}
 ,	{I18N_NOOP("State"),'S'}
 ,	{I18N_NOOP("Owner id"),'N'}
-,	{I18N_NOOP("Owner username"),'S'}
+,	{I18N_NOOP("Owner user name"),'S'}
 ,	{I18N_NOOP("Current working directory"),'S'}
 ,	{I18N_NOOP("Command line"),'S'}
 ,	{I18N_NOOP("Start time"),'S'}
