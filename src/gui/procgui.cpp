@@ -27,12 +27,13 @@
 #include <QTableView>
 #include <klocalizedstring.h>
 #include <QAbstractItemModel>
+#include <QMessageBox>
 #include "sortproxy.h"
 #include "about.h"
 #include "src/base/utils.h"
+
 /**
- *  Main windows. This windows displays the processList.
- *  
+ *  Main windows. This window displays the processList.
  */
 
 
@@ -48,6 +49,13 @@ class TGridDelegate : public QStyledItemDelegate
 public:
     TGridDelegate(QObject* p_parent ) : QStyledItemDelegate(p_parent) { }
  
+ /**
+  * Paint grid line in a TreeView
+  * 
+  * \param  p_painter  Painter used for drawing grid lines
+  * \param  p_option   Option used for drawing grid lines
+  * \param  p_index    Current model index.
+  */
     void paint(QPainter* p_painter, const QStyleOptionViewItem& p_option, const QModelIndex& p_index ) const
     {
         p_painter->save();
@@ -63,6 +71,8 @@ public:
 /**
  *  Constructor
  *  Setup windows and initialize all events
+ * 
+ * \param parent Parent window
  */
 
 TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
@@ -187,8 +197,10 @@ void TProcGui::checkDisplayAsTree()
 }
 
 /**
- *  Fills/refreshes  the process list 
+ * This methods fills the process list with data from p_processList.
+ * The data is filterd by the exe name  and the user filter.
  * 
+ * \param p_processList Data in this list is used to fill the process list/tree
  */
 
 void TProcGui::fillProcessList(TProcessInfoList* p_processList)
@@ -203,6 +215,8 @@ void TProcGui::fillProcessList(TProcessInfoList* p_processList)
 /** 
  *  Event handler for double clicking the process list
  *  When double clicking the process list, the details dialog with information about the selected process is shown.
+ * 
+ * \param p_index  Index on the gird where the user double clicked.
  */
 void TProcGui::doubleClickedGrid(const QModelIndex &p_index)
 {
@@ -278,15 +292,17 @@ void TProcGui::userFilterChange(int p_index PAR_UNUSED)
  */
 void TProcGui::killProcess()
 {
-	QModelIndexList l_list=ui->processList->selectionModel()->selectedRows();
-	QListIterator<QModelIndex> l_iter(l_list);
-	QModelIndex l_index;
-	while(l_iter.hasNext()){
-		l_index=l_iter.next();
-		int  l_pid=l_index.data(Qt::UserRole + 1).toInt();
-		kill(l_pid,SIGKILL);
-	}
-	
+    QMessageBox l_mb(QMessageBox::Question ,i18n("Kill process?"),i18n("Kill selected processes?"),QMessageBox::Ok | QMessageBox::Cancel);
+    if(l_mb.exec()==QMessageBox::Ok){
+        QModelIndexList l_list=ui->processList->selectionModel()->selectedRows();
+        QListIterator<QModelIndex> l_iter(l_list);
+        QModelIndex l_index;
+        while(l_iter.hasNext()){
+            l_index=l_iter.next();
+            int  l_pid=l_index.data(Qt::UserRole + 1).toInt();
+            kill(l_pid,SIGKILL);
+        }
+    }
 }
 
 /**

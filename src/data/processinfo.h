@@ -16,26 +16,119 @@
 class TProcessInfo
 {
 private:
+    /**
+     * Proceses pid
+     */
 	pid_t pid;
+    
+    /**
+     * Parent process ID
+     */
 	pid_t ppid;
+    
+    /**
+     * Process session ID
+     */
 	pid_t sessionPId;
+    
+    /**
+     * Owner user id of process
+     */
 	uint  ownerId;
+    
+    /**
+     * Virtual size used by process
+     */
 	ulong vsize;
+    
+    /**
+     * Rsident set size. Memory in RAM and not swap or on fs.
+     */
 	ulong rss;
+    
+    /**
+     * Process group id
+     */
 	int   processGroupId; 
+    
+    /**
+     * Start time of process sinze last boot
+     */
 	unsigned long long startTime;
+    
+    /**
+     * User time used by process since start
+     */
 	ulong   utime;
+    
+    /**
+     * System time used by process since start.
+     */
 	ulong   stime;
+    
+    /**
+     * Difference in user time since last start
+     */
 	long    diffUTime=-1;
+    
+    /**
+     * Differen in system time used by process
+     */
 	long    diffSTime=-1;
+    
+    /**
+     * Path to executable
+     */
 	QString exe;
+    
+    /**
+     * process name
+     */
 	QString comm;
+    
+    /**
+     * Current working directory of process.
+     */
 	QString cwd;
-	QString cmdLine;
+    
+    /**
+     *  COmmand line used for starting process
+     */
+    QString cmdLine;
+    
+    /**
+     * State of process
+     */
 	char    state=' ';
+	
+	/**
+     * Get nice level.
+     */
+    int niceLevel=0;
+	
+    /**
+     * If hasNiceLevel=true, than nice level has a valid niceLevel.
+     * Reading of niceLevel can fail if the user hasn't proper rights.
+     */
+    
+    bool hasNiceLevel=false;
+    
+	/**
+     * Parent process object.
+     */
 	TProcessInfo *parent;
+    
+    /**
+     * All sub processes of this process.
+     */
 	QHash<uint,TProcessInfo*> subprocess;
+    
+    /**
+     *  Threads in this process
+     */
 	TLinkList<TProcessInfo> threads;
+    
+    
 public:
 	inline pid_t getPid(){ return pid;}
 	inline void setPid(pid_t p_pid){pid=p_pid;}
@@ -61,6 +154,8 @@ public:
 	inline void  setUTime(ulong p_utime){ utime=p_utime;}
 	inline ulong getSTime(){ return stime;}
 	inline void  setSTime(ulong p_stime){ stime=p_stime;}
+	inline int   getNiceLevel(){ return niceLevel;}
+	inline bool  getHasNiceLevel(){ return hasNiceLevel;}
 	inline const QString getSTimeStr(){ return timeToString(getSTime());}
 	inline const QString getUTimeStr(){ return timeToString(getUTime());}
 	inline const QString getTotalTimeStr(){ return timeToString(getUTime()+getSTime());}
@@ -88,6 +183,7 @@ public:
 	const QString timeToString(unsigned long long p_time);
 	void getOpenFiles(QHash<int,QString> &p_map);	
 	void getCGroups(TLinkList<TCGroupInfo> &p_info);
+    void readInfo();
 
 };
 

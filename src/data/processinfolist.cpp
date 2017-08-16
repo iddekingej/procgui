@@ -48,6 +48,7 @@ TProcessInfo * TProcessInfoList::readInfoFromPid(pid_t p_pid)
 	l_info->setPid(p_pid);
 	l_info->setOwnerId(QFileInfo(l_path).ownerId());
 	readProcess(l_path,l_info);
+    l_info->readInfo();
 	TProcessInfo *l_parent=pidIndex.value(l_info->getPPid(),nullptr);
 	l_info->setParent(l_parent);
 	return l_info;
@@ -75,6 +76,7 @@ void TProcessInfoList::readProcess(QString p_path, TProcessInfo *p_info)
 	readString(p_path,QStringLiteral("cmdline"),l_str);
 	p_info->setCmdLine(l_str);
 	readThreads(p_path,p_info);
+    p_info->readInfo();
 
 }
 

@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <iostream>
+#include <errno.h>
+#include <sys/resource.h>
 #include "src/base/utils.h"
 /**
  * The fields displayed in the process list grid can be configured.
@@ -37,6 +39,7 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << QString::number(getDiffSTime());
 	p_info << getTotalTimeStr();
 	p_info << QString::number(getDiffTotalTime());
+    p_info << (hasNiceLevel?QString::number(niceLevel):QStringLiteral(""));
 	
 }
 
@@ -68,7 +71,7 @@ QString TProcessInfo::stateString()
 
 
 /**
- *  Returns user name of process owner
+ *  Returns the user name of process owner
  * 
  * \return  User name of user who owns the process
  */
@@ -76,6 +79,13 @@ QString TProcessInfo::getOwnerName()
 {
 	return getUsernameById(ownerId);
 }
+
+
+/**
+ *  Add sub process to parent process
+ * 
+ * \param p_processInfo  This proces is added as child to parent
+ */
 
 void TProcessInfo::addSubProcess(TProcessInfo* p_processInfo)
 {
@@ -86,7 +96,7 @@ void TProcessInfo::addSubProcess(TProcessInfo* p_processInfo)
 /**
  *  Add thread information to process
  * 
- * \param p_thread - thread information to add to proces
+ * \param p_threadInfo - thread information to add to proces
  */
 
 void TProcessInfo::addThread(TProcessInfo* p_threadInfo)
@@ -120,9 +130,9 @@ const QString TProcessInfo::timeToString(unsigned long long p_time)
 }
 
 /**
- *  Read all open files from process (From /proc/#pid#/fd/)
+ *  Read all open files from process (From /proc/#pid#/fd/) into a hashmap.
  * 
- * \param p_map  Hashmap int/QString with open files
+ * \param p_map  All open files are read in this Hashmap. The key is the handle ID and the value (QString) is the path too the file.
  */
 
 void TProcessInfo::getOpenFiles(QHash<int, QString>& p_map)
@@ -171,4 +181,22 @@ void TProcessInfo::getCGroups(TLinkList<TCGroupInfo> &p_cgroupInfo)
 			}
 		}
 	}
+}
+
+/**
+ * Read process info.
+ * This method only read nice level yet.
+ * TODO Move fun from processInfoList to this method...
+ */
+
+void TProcessInfo::readInfo()
+{
+        errno=0;
+        int l_nice=getpriority(PRIO_PROCESS,pid);
+        hasNiceLevel=(errno ==0);
+        if(errno==0){
+            niceLevel=l_nice;
+        } else {
+            niceLevel=0;
+        }
 }
