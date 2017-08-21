@@ -27,7 +27,7 @@ const  TFieldInfo g_fields[]={
 ,	{I18N_NOOP("Diff. system time"),'N'}
 ,	{I18N_NOOP("Total time"),'S'}
 ,	{I18N_NOOP("Diff. total time"),'N'}
-,   {I18N_NOOP("Nice level"),'N'}
+,   {I18N_NOOP("Priority"),'N'}
 };
 
 

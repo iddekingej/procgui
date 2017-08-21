@@ -100,19 +100,14 @@ private:
      * State of process
      */
 	char    state=' ';
-	
-	/**
-     * Get nice level.
-     */
-    int niceLevel=0;
-	
+    
     /**
-     * If hasNiceLevel=true, than nice level has a valid niceLevel.
-     * Reading of niceLevel can fail if the user hasn't proper rights.
+     * Priority
      */
+	int priority=0;
+    bool hasPriority=false;
     
-    bool hasNiceLevel=false;
-    
+
 	/**
      * Parent process object.
      */
@@ -154,8 +149,6 @@ public:
 	inline void  setUTime(ulong p_utime){ utime=p_utime;}
 	inline ulong getSTime(){ return stime;}
 	inline void  setSTime(ulong p_stime){ stime=p_stime;}
-	inline int   getNiceLevel(){ return niceLevel;}
-	inline bool  getHasNiceLevel(){ return hasNiceLevel;}
 	inline const QString getSTimeStr(){ return timeToString(getSTime());}
 	inline const QString getUTimeStr(){ return timeToString(getUTime());}
 	inline const QString getTotalTimeStr(){ return timeToString(getUTime()+getSTime());}
@@ -172,6 +165,8 @@ public:
 	inline ulong getVSize(){return vsize;}
 	inline void  setRSS(ulong p_rss){rss=p_rss;}
 	inline ulong getRSS(){ return rss;}
+	inline int getPriority(){ return priority;}
+	inline bool getHasPriority(){ return hasPriority;}
 	inline QHash<uint,TProcessInfo*> *getSubProcesses(){ return &subprocess;}
 	inline TLinkList<TProcessInfo> *getThreads(){ return &threads;}	
 	void addSubProcess(TProcessInfo *p_processInfo);

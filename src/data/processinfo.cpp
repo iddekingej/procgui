@@ -39,7 +39,7 @@ void TProcessInfo::getInfo(QVector<QString>& p_info)
 	p_info << QString::number(getDiffSTime());
 	p_info << getTotalTimeStr();
 	p_info << QString::number(getDiffTotalTime());
-    p_info << (hasNiceLevel?QString::number(niceLevel):QStringLiteral(""));
+    p_info << (hasPriority?QString::number(priority):QStringLiteral(""));
 	
 }
 
@@ -193,10 +193,10 @@ void TProcessInfo::readInfo()
 {
         errno=0;
         int l_nice=getpriority(PRIO_PROCESS,pid);
-        hasNiceLevel=(errno ==0);
+        hasPriority=(errno ==0);
         if(errno==0){
-            niceLevel=l_nice;
+            priority=l_nice;
         } else {
-            niceLevel=0;
+            priority=0;
         }
 }

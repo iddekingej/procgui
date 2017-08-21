@@ -29,6 +29,7 @@ private slots:
 	void killProcess();
 	void showDetails();
 	void checkDisplayAsTree();
+    void showPriorityDialog();
 	void about();
 private:
 	/**

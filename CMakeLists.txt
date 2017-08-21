@@ -53,6 +53,7 @@ set(procgui_SRC
   src/gui/procinfodialog.cpp
   src/gui/sortproxy.cpp
   src/gui/about.cpp
+  src/gui/priority.cpp
 )
 set(procgui_LIBS
     Qt5::Widgets
@@ -61,15 +62,23 @@ set(procgui_LIBS
     KF5::I18n
  )
 
+set(procgui_resource
+    src/images/images.qrc
+)
+ 
 qt5_wrap_ui(procgui_SRC 
 	src/ui/fields.ui
 	src/ui/procgui.ui
 	src/ui/procinfodialog.ui
+	src/ui/priority.ui
 	src/ui/about.ui
 )
 add_subdirectory(src/po)
 
-add_executable(procgui   src/main.cpp ${procgui_SRC})
+qt5_add_resources(procgui_rcc_h ${procgui_resource})
+
+add_executable(procgui   src/main.cpp ${procgui_rcc_h} ${procgui_SRC})
+
 
 target_link_libraries(procgui ${procgui_LIBS})
 

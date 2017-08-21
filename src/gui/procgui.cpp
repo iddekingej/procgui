@@ -31,6 +31,7 @@
 #include "sortproxy.h"
 #include "about.h"
 #include "src/base/utils.h"
+#include "priority.h"
 
 /**
  *  Main windows. This window displays the processList.
@@ -94,6 +95,7 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	connect(ui->killButton,SIGNAL(clicked()),this,SLOT(killProcess()));
 	connect(ui->detailsButton,SIGNAL(clicked()),this,SLOT(showDetails()));
 	connect(ui->displayAsTree,SIGNAL(clicked()),this,SLOT(checkDisplayAsTree()));
+    connect(ui->priority,SIGNAL(clicked()),this,SLOT(showPriorityDialog()));
 	ui->displayAsTree->setCheckState(g_config.getDisplayAsTree()?Qt::Checked:Qt::Unchecked);
 	ui->processList->setItemDelegate(new TGridDelegate(ui->processList));
 	userSelection=new QTableView(this);
@@ -121,6 +123,21 @@ void TProcGui::about()
 	l_about.exec();
 }
 
+/**
+ * Show the PropertyDialog for changing the proces priority
+ */
+void TProcGui::showPriorityDialog()
+{
+    printf("Help\n");
+    if(ui->processList->selectionModel()->selectedRows().count()>0){
+        pid_t l_pid=ui->processList->selectionModel()->selectedRows().first().data(Qt::UserRole+1).toUInt();
+        TProcessInfo *l_info=processInfo->getByPid(l_pid);
+        PriorityDialog l_dialog(l_info);
+        l_dialog.exec();
+    }
+
+    
+}
 
 
 

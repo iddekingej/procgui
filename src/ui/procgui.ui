@@ -36,7 +36,7 @@
         </property>
         <property name="icon">
          <iconset theme="process-stop">
-          <normaloff>.</normaloff>.</iconset>
+          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -65,13 +65,24 @@
         </property>
         <property name="icon">
          <iconset theme="view-list-details">
-          <normaloff>.</normaloff>.</iconset>
+          <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
         </property>
         <property name="iconSize">
          <size>
           <width>16</width>
           <height>16</height>
          </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="priority">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../images/images.qrc">
+          <normaloff>:/priority.png</normaloff>:/priority.png</iconset>
         </property>
        </widget>
       </item>
@@ -231,6 +242,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="../images/images.qrc"/>
+ </resources>
  <connections/>
 </ui>
