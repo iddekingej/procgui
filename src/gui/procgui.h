@@ -31,6 +31,7 @@ private slots:
 	void checkDisplayAsTree();
     void showPriorityDialog();
 	void about();
+    void clickAutoRefresh();
 private:
 	/**
 	 * Gui layout

@@ -87,6 +87,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="autoRefresh">
+        <property name="text">
+         <string>refresh</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QCheckBox" name="displayAsTree">
         <property name="text">
          <string>Display as tree</string>

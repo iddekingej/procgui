@@ -70,6 +70,8 @@ void TProcInfoDialog::fillData(TProcessInfo *p_processInfo)
 	ui.stime_label->setText(p_processInfo->getSTimeStr());
 	ui.diffUTime_label->setText(QString::number(p_processInfo->getDiffUTime()));
 	ui.diffSTime_label->setText(QString::number(p_processInfo->getDiffSTime()));
+    ui.priority_label->setText(QString::number(p_processInfo->getPriority()));
+    
 	QStandardItemModel *l_model=new QStandardItemModel(0,3,this);
 	l_model->setHorizontalHeaderItem(0,new QStandardItem(i18n("Pid")));
 	l_model->setHorizontalHeaderItem(1,new QStandardItem(i18n("Command")));

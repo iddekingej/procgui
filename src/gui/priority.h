@@ -12,6 +12,7 @@ private:
 private slots:
         void pressOk();
         void pressCancel();
+        void errorMessage(QString p_message);
 public:
         Ui::PriorityDialog ui;
         PriorityDialog(TProcessInfo *p_info);

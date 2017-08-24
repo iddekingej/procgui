@@ -86,6 +86,8 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	}
 	TSortProxy *sortProxy=new TSortProxy(g_config.getFields(),this);
 	ui->processList->setModel(sortProxy);
+    ui->autoRefresh->setCheckState(Qt::Checked);
+
 	connect(ui->action_Exit,SIGNAL(triggered()),qApp,SLOT(quit()));
 	connect(ui->actionFields,SIGNAL(triggered()),this,SLOT(fieldsDialog()));
 	connect(ui->actionAbout,SIGNAL(triggered()), this,SLOT(about()));
@@ -96,6 +98,7 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	connect(ui->detailsButton,SIGNAL(clicked()),this,SLOT(showDetails()));
 	connect(ui->displayAsTree,SIGNAL(clicked()),this,SLOT(checkDisplayAsTree()));
     connect(ui->priority,SIGNAL(clicked()),this,SLOT(showPriorityDialog()));
+    connect(ui->autoRefresh,SIGNAL(clicked()),this,SLOT(clickAutoRefresh()));
 	ui->displayAsTree->setCheckState(g_config.getDisplayAsTree()?Qt::Checked:Qt::Unchecked);
 	ui->processList->setItemDelegate(new TGridDelegate(ui->processList));
 	userSelection=new QTableView(this);
@@ -104,7 +107,7 @@ TProcGui::TProcGui(QWidget *parent) : QMainWindow(parent), ui(new Ui::procgui)
 	userSelection->setSelectionMode(QAbstractItemView::SingleSelection);
 	userSelection->verticalHeader()->setVisible(false);
 	refreshTimeout();
-	refresh.setInterval(1024);
+	refresh.setInterval(1000);
 	refresh.start();
 }
 
@@ -124,21 +127,36 @@ void TProcGui::about()
 }
 
 /**
+ * Event fired when user clicks the autorefresh checkbox.
+ * This method togles autorefresh
+ */
+void TProcGui::clickAutoRefresh()
+{
+    if(ui->autoRefresh->checkState()==Qt::Checked){
+        refresh.start();
+    } else {
+        refresh.stop();
+    }
+}
+
+
+/**
  * Show the PropertyDialog for changing the proces priority
  */
 void TProcGui::showPriorityDialog()
 {
-    printf("Help\n");
     if(ui->processList->selectionModel()->selectedRows().count()>0){
+        refresh.stop();
         pid_t l_pid=ui->processList->selectionModel()->selectedRows().first().data(Qt::UserRole+1).toUInt();
         TProcessInfo *l_info=processInfo->getByPid(l_pid);
         PriorityDialog l_dialog(l_info);
         l_dialog.exec();
+        refresh.start();
+        refreshTimeout();
     }
 
     
 }
-
 
 
 /**
